@@ -10,6 +10,13 @@
    */
 
   function _createImage() {
+    // Short-circuit if data is already present from previous run
+    if (_data) {
+      _method();
+
+      return;
+    }
+
     var img = document.createElement('img');
 
     img.crossOrigin = 'Anonymous';
@@ -73,8 +80,6 @@
   function _average() {
     var colors = [];
     var channels = _extract();
-
-    console.log(channels);
 
     for (var key in channels) {
       colors.push(_format(channels[key].total / channels[key].amount));
