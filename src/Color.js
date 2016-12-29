@@ -1,12 +1,8 @@
 (function(root) {
-  var _channels = {
-    r: {amount: 0, total: 0},
-    g: {amount: 0, total: 0},
-    b: {amount: 0, total: 0},
-  };
   var _callback = null;
   var _data = null;
   var _img = null;
+  var _method = null;
   var _url = null;
 
   /**
@@ -46,10 +42,16 @@
 
     document.body.removeChild(canvas);
 
-    _extract();
+    _method();
   }
 
   function _extract() {
+    var channels = {
+      r: {amount: 0, total: 0},
+      g: {amount: 0, total: 0},
+      b: {amount: 0, total: 0},
+    };
+
     for (var i = 0; i < (_img.width * _img.height); i += 4) {
       if (_data[i + 3] < (255 / 2)) {
         continue;
@@ -57,28 +59,29 @@
 
       var iterator = i;
 
-      for (var key in _channels) {
-        _channels[key].amount++;
-        _channels[key].total += _data[iterator];
+      for (var key in channels) {
+        channels[key].amount++;
+        channels[key].total += _data[iterator];
 
         iterator++;
       }
     }
 
-    if (_callback) {
-      _callback();
-    }
+    return channels;
   }
 
   function _average() {
     var colors = [];
+    var channels = _extract();
 
-    for (var key in _channels) {
-      colors.push(_format(_channels[key].total / _channels[key].amount));
+    console.log(channels);
+
+    for (var key in channels) {
+      colors.push(_format(channels[key].total / channels[key].amount));
     }
 
-    return 'rgb(' + colors.join(', ') + ')';
-  }
+    _callback('rgb(' + colors.join(', ') + ')');
+  };
 
   function _format(value) {
     return Math.round(value);
@@ -96,14 +99,12 @@
     }
   };
 
-  Color.prototype.average = function() {
-    if (! _data) {
-      _callback = _average;
-      _createImage();
-    } else {
-      _average();
-    }
-  };
+  Color.prototype.average = function(callback) {
+    _method = _average;
+    _callback = callback;
+
+    _createImage();
+  }
 
   /**
    * Module
