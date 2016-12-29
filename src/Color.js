@@ -1,41 +1,21 @@
 (function(root) {
   var Color = function() {};
-  var channels = {
-    r: {
-      amount: 0,
-      total: 0,
-    },
-    g: {
-      amount: 0,
-      total: 0,
-    },
-    b: {
-      amount: 0,
-      total: 0,
-    },
-  };
-  var img = null;
 
   /**
    * Internal functions
    */
 
   function _createImage(url) {
-    img = new Image();
+    var img = new Image();
 
     img.crossOrigin = 'Anonymous';
     img.src = url;
-
-    if (img.complete) {
-      _createCanvas();
-    } else {
-      img.addEventListener('load', function() {
-        _createCanvas();
-      });
-    }
+    img.addEventListener('load', function() {
+      _createCanvas(img);
+    });
   }
 
-  function _createCanvas() {
+  function _createCanvas(img) {
     var canvas = document.createElement('canvas');
 
     if (typeof canvas.getContext === 'undefined') {
@@ -53,15 +33,31 @@
 
     var info = context.getImageData(0, 0, img.width, img.height);
 
-    _extract(info.data);
+    _extract(info.data, (img.width * img.height));
     document.body.removeChild(canvas);
 
     // Collect garbage
     canvas = null;
+    img = null;
   }
 
-  function _extract(data) {
-    for (var i = 0; i < (img.width * img.height); i += 4) {
+  function _extract(data, size) {
+    var channels = {
+      r: {
+        amount: 0,
+        total: 0,
+      },
+      g: {
+        amount: 0,
+        total: 0,
+      },
+      b: {
+        amount: 0,
+        total: 0,
+      },
+    };
+
+    for (var i = 0; i < size; i += 4) {
       if (data[i + 3] < (255 / 2)) {
         continue;
       }
@@ -76,10 +72,10 @@
       }
     }
 
-    _average();
+    _average(channels);
   }
 
-  function _average() {
+  function _average(channels) {
     var colors = [];
 
     for (var key in channels) {
