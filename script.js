@@ -117,5 +117,9 @@
    * Module
    */
 
-  root.Color = Color;
+  if (typeof module === 'object') {
+    module.exports = Color;
+  } else {
+    root.Color = Color;
+  }
 })(this);
