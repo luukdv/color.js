@@ -4,17 +4,20 @@
     g: {amount: 0, total: 0},
     b: {amount: 0, total: 0},
   };
+  var _callback = null;
+  var _data = null;
   var _img = null;
+  var _url = null;
 
   /**
    * Internal functions
    */
 
-  function _createImage(url) {
+  function _createImage() {
     var img = document.createElement('img');
 
     img.crossOrigin = 'Anonymous';
-    img.src = url;
+    img.src = _url;
 
     img.addEventListener('load', function() {
       _img = img;
@@ -39,14 +42,16 @@
     document.body.appendChild(canvas);
 
     var info = context.getImageData(0, 0, _img.width, _img.height);
+    _data = info.data;
 
-    _extract(info.data);
     document.body.removeChild(canvas);
+
+    _extract();
   }
 
-  function _extract(data) {
+  function _extract() {
     for (var i = 0; i < (_img.width * _img.height); i += 4) {
-      if (data[i + 3] < (255 / 2)) {
+      if (_data[i + 3] < (255 / 2)) {
         continue;
       }
 
@@ -54,13 +59,15 @@
 
       for (var key in _channels) {
         _channels[key].amount++;
-        _channels[key].total += data[iterator];
+        _channels[key].total += _data[iterator];
 
         iterator++;
       }
     }
 
-    _average();
+    if (_callback) {
+      _callback();
+    }
   }
 
   function _average() {
@@ -70,7 +77,7 @@
       colors.push(_format(_channels[key].total / _channels[key].amount));
     }
 
-    var render = 'rgb(' + colors.join(', ') + ')';
+    return 'rgb(' + colors.join(', ') + ')';
   }
 
   function _format(value) {
@@ -83,9 +90,18 @@
 
   var Color = function(item) {
     if (typeof item === 'object' && item.src) {
-      _createImage(item.src);
+      _url = item.src;
     } else if (typeof item === 'string') {
-      _createImage(item);
+      _url = item;
+    }
+  };
+
+  Color.prototype.average = function() {
+    if (! _data) {
+      _callback = _average;
+      _createImage();
+    } else {
+      _average();
     }
   };
 
