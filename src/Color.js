@@ -43,18 +43,9 @@
 
   function _extract(data, size) {
     var channels = {
-      r: {
-        amount: 0,
-        total: 0,
-      },
-      g: {
-        amount: 0,
-        total: 0,
-      },
-      b: {
-        amount: 0,
-        total: 0,
-      },
+      r: {amount: 0, total: 0},
+      g: {amount: 0, total: 0},
+      b: {amount: 0, total: 0},
     };
 
     for (var i = 0; i < size; i += 4) {
