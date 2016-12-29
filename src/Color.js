@@ -1,6 +1,4 @@
 (function(root) {
-  var Color = function() {};
-
   /**
    * Internal functions
    */
@@ -84,13 +82,13 @@
    * External API
    */
 
-  Color.prototype.fromUrl = function(url) {
-    _createImage(url);
+  var Color = function(item) {
+    if (typeof item === 'object' && item.src) {
+      _createImage(item.src);
+    } else if (typeof item === 'string') {
+      _createImage(item);
+    }
   };
-
-  Color.prototype.fromImage = function(image) {
-    _createImage(image.src);
-  }
 
   /**
    * Module
