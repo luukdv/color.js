@@ -1,19 +1,28 @@
 (function(root) {
+  var _channels = {
+    r: {amount: 0, total: 0},
+    g: {amount: 0, total: 0},
+    b: {amount: 0, total: 0},
+  };
+  var _img = null;
+
   /**
    * Internal functions
    */
 
   function _createImage(url) {
-    var img = new Image();
+    var img = document.createElement('img');
 
     img.crossOrigin = 'Anonymous';
     img.src = url;
+
     img.addEventListener('load', function() {
-      _createCanvas(img);
+      _img = img;
+      _createCanvas();
     });
   }
 
-  function _createCanvas(img) {
+  function _createCanvas() {
     var canvas = document.createElement('canvas');
 
     if (typeof canvas.getContext === 'undefined') {
@@ -22,53 +31,43 @@
 
     var context = canvas.getContext('2d');
 
-    canvas.height = img.height;
+    canvas.height = _img.height;
     canvas.style.display = 'none';
-    canvas.width = img.width;
-    context.drawImage(img, 0, 0);
+    canvas.width = _img.width;
+    context.drawImage(_img, 0, 0);
 
     document.body.appendChild(canvas);
 
-    var info = context.getImageData(0, 0, img.width, img.height);
+    var info = context.getImageData(0, 0, _img.width, _img.height);
 
-    _extract(info.data, (img.width * img.height));
+    _extract(info.data);
     document.body.removeChild(canvas);
-
-    // Collect garbage
-    canvas = null;
-    img = null;
   }
 
-  function _extract(data, size) {
-    var channels = {
-      r: {amount: 0, total: 0},
-      g: {amount: 0, total: 0},
-      b: {amount: 0, total: 0},
-    };
-
-    for (var i = 0; i < size; i += 4) {
+  function _extract(data) {
+    for (var i = 0; i < (_img.width * _img.height); i += 4) {
       if (data[i + 3] < (255 / 2)) {
         continue;
       }
 
       var iterator = i;
 
-      for (var key in channels) {
-        channels[key].amount++;
-        channels[key].total += data[iterator];
+      for (var key in _channels) {
+        _channels[key].amount++;
+        _channels[key].total += data[iterator];
 
         iterator++;
       }
     }
 
-    _average(channels);
+    _average();
   }
 
-  function _average(channels) {
+  function _average() {
     var colors = [];
 
-    for (var key in channels) {
-      colors.push(_format(channels[key].total / channels[key].amount));
+    for (var key in _channels) {
+      colors.push(_format(_channels[key].total / _channels[key].amount));
     }
 
     var render = 'rgb(' + colors.join(', ') + ')';
