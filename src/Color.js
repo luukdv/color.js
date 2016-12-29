@@ -14,28 +14,18 @@
       total: 0,
     },
   };
-  var img = undefined;
+  var img = null;
 
   /**
    * Internal functions
    */
 
-  function _read(data) {
-    if (typeof FileReader === 'undefined') {
-      return false;
-    }
+  function _createImage(url) {
+    img = new Image();
 
-    const reader = new FileReader();
+    img.crossOrigin = 'Anonymous';
+    img.src = url;
 
-    reader.readAsDataURL(data);
-    reader.addEventListener('load', function() {
-      _createImage(reader.result);
-    });
-  }
-
-  function _createImage(base64) {
-    img = document.createElement('img');
-    img.src = base64;
     img.addEventListener('load', function() {
       _createCanvas();
     });
@@ -61,6 +51,9 @@
 
     _extract(info.data);
     document.body.removeChild(canvas);
+
+    // Collect garbage
+    canvas = null;
   }
 
   function _extract(data) {
@@ -101,17 +94,12 @@
    */
 
   Color.prototype.fromUrl = function(url) {
-    var req = new XMLHttpRequest();
-
-    req.open('GET', url);
-    req.responseType = 'blob';
-    req.send();
-    req.addEventListener('readystatechange', function() {
-      if (req.readyState === XMLHttpRequest.DONE && req.status === 200) {
-        _read(req.response);
-      }
-    });
+    _createImage(url);
   };
+
+  Color.prototype.fromImage = function(image) {
+    _createImage(image.src);
+  }
 
   /**
    * Module
