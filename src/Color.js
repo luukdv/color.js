@@ -26,9 +26,13 @@
     img.crossOrigin = 'Anonymous';
     img.src = url;
 
-    img.addEventListener('load', function() {
+    if (img.complete) {
       _createCanvas();
-    });
+    } else {
+      img.addEventListener('load', function() {
+        _createCanvas();
+      });
+    }
   }
 
   function _createCanvas() {
