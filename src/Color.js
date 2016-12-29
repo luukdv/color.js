@@ -14,6 +14,18 @@
   };
 
   /**
+   * Helpers
+   */
+
+  Color.prototype._format = function(number) {
+    return Math.round(number);
+  }
+
+  Color.prototype._roundTo15 = function(number) {
+    return Math.round(number / 15) * 15;
+  }
+
+  /**
    * Internal functions
    */
 
@@ -60,7 +72,7 @@
 
   Color.prototype._average = function() {
     var colors = [];
-    var channels = this._extract();
+    var channels = this._extractChannels();
 
     for (var key in channels) {
       colors.push(this._format(channels[key].total / channels[key].amount));
@@ -69,7 +81,25 @@
     this._callback('rgb(' + colors.join(', ') + ')');
   };
 
-  Color.prototype._extract = function() {
+  Color.prototype._mostUsed = function() {
+    var colors = this._extractColorBlocks();
+    var highest = {
+      count: 0,
+    };
+
+    for (color in colors) {
+      if (highest.count < colors[color]) {
+        highest = {
+          color: color,
+          count: colors[color],
+        };
+      }
+    }
+
+    this._callback('rgb(' + highest.color + ')');
+  };
+
+  Color.prototype._extractChannels = function() {
     var channels = {
       r: {amount: 0, total: 0},
       g: {amount: 0, total: 0},
@@ -94,8 +124,30 @@
     return channels;
   }
 
-  Color.prototype._format = function(value) {
-    return Math.round(value);
+  Color.prototype._extractColorBlocks = function() {
+    var colors = {};
+
+    for (var i = 0; i < (this._img.width * this._img.height); i += 4) {
+      if (this._data[i + 3] < (255 / 2)) {
+        continue;
+      }
+
+      var color = [];
+
+      for (var iterator = i; iterator <= i + 2; iterator++) {
+        color.push(this._roundTo15(this._data[i + iterator]));
+      }
+
+      color = color.join(', ');
+
+      if (color in colors) {
+        colors[color]++;
+      } else {
+        colors[color] = 1;
+      }
+    }
+
+    return colors;
   }
 
   /**
@@ -108,6 +160,16 @@
     }
 
     this._method = this._average;
+    this._callback = callback;
+    this._createImage();
+  }
+
+  Color.prototype.mostUsed = function(callback) {
+    if (typeof callback !== 'function') {
+      throw new Error('Callback is not provided.');
+    }
+
+    this._method = this._mostUsed;
     this._callback = callback;
     this._createImage();
   }
