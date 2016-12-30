@@ -165,13 +165,13 @@
       throw new Error('Callback is not provided.');
     }
 
-    this._callbacks.push({
-      call: callback,
-      method: method,
-    });
-
-    if (! this._running) {
-      this._runCallbacks();
+    if (this._running) {
+      this._callbacks.push({
+        call: callback,
+        method: method,
+      });
+    } else {
+      method.call(this, callback);
     }
   };
 
