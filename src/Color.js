@@ -13,6 +13,7 @@
       this._url = item;
     }
 
+    this.amount = 5;
     this.sample = 10;
 
     this._running = true;
@@ -99,17 +100,33 @@
   Color.prototype._leastUsed = function(callback) {
     this._extractColorBlocks();
 
-    var color = this._colors[this._colors.length - 1].color;
+    var colors = [];
 
-    callback('rgb(' + color + ')');
+    for (var i = 1; i <= this.amount; i++) {
+      if (!this._colors[this._colors.length - i]) {
+        continue;
+      }
+
+      colors.push('rgb(' + this._colors[this._colors.length - i].color + ')');
+    }
+
+    callback(colors);
   };
 
   Color.prototype._mostUsed = function(callback) {
     this._extractColorBlocks();
 
-    var color = this._colors[0].color;
+    var colors = [];
 
-    callback('rgb(' + color + ')');
+    for (var i = 0; i < this.amount; i++) {
+      if (!this._colors[i]) {
+        continue;
+      }
+
+      colors.push('rgb(' + this._colors[i].color + ')');
+    }
+
+    callback(colors);
   };
 
   Color.prototype._extractChannels = function() {
