@@ -1,8 +1,10 @@
 (function(root) {
   var Color = function(item) {
     this._data = null;
-    this._img = null;
     this._callbacks = [];
+    this._colors = null;
+    this._img = null;
+    this._size = null;
     this._url = null;
 
     if (typeof item === 'object' && item.src) {
@@ -53,6 +55,7 @@
     this._img.src = this._url;
 
     this._img.addEventListener('load', function() {
+      this._size = this._img.height * this._img.width;
       this._createCanvas();
     }.bind(this));
   };
@@ -93,22 +96,33 @@
     callback('rgb(' + colors.join(', ') + ')');
   };
 
-  Color.prototype._mostUsed = function(callback) {
-    var colors = this._extractColorBlocks();
-    var highest = {
+  Color.prototype._getColor = function(callback) {
+    var pick = {
       count: 0,
     };
 
-    for (var color in colors) {
-      if (highest.count < colors[color]) {
-        highest = {
+    if (!this._colors) {
+      this._colors = this._extractColorBlocks();
+    }
+
+    for (var color in this._colors) {
+      if (callback(pick.count, this._colors[color])) {
+        pick = {
           color: color,
-          count: colors[color],
+          count: this._colors[color],
         };
       }
     }
 
-    callback('rgb(' + highest.color + ')');
+    return pick.color;
+  }
+
+  Color.prototype._mostUsed = function(callback) {
+    var color = this._getColor(function(acc, curr) {
+      return acc < curr;
+    });
+
+    callback('rgb(' + color + ')');
   };
 
   Color.prototype._extractChannels = function() {
@@ -118,7 +132,7 @@
       b: {amount: 0, total: 0},
     };
 
-    for (var i = 0; i < (this._img.width * this._img.height); i += (4 * this.sample)) {
+    for (var i = 0; i < this._size; i += (4 * this.sample)) {
       if (this._data[i + 3] < (255 / 2)) {
         continue;
       }
@@ -139,7 +153,7 @@
   Color.prototype._extractColorBlocks = function() {
     var colors = {};
 
-    for (var i = 0; i < (this._img.width * this._img.height); i += (4 * this.sample)) {
+    for (var i = 0; i < this._size; i += (4 * this.sample)) {
       if (this._data[i + 3] < (255 / 2)) {
         continue;
       }
