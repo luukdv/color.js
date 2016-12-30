@@ -19,16 +19,16 @@
    * Helpers
    */
 
-  Color.prototype._format = function(number) {
+  function _format(number) {
     return Math.round(number);
-  };
+  }
 
-  Color.prototype._roundTo20 = function(number) {
+  function _roundTo20(number) {
     return Math.round(number / 20) * 20;
-  };
+  }
 
   /**
-   * Internal functions
+   * Internals
    */
 
   Color.prototype._runCallbacks = function() {
@@ -78,7 +78,7 @@
     var channels = this._extractChannels();
 
     for (var key in channels) {
-      colors.push(this._format(channels[key].total / channels[key].amount));
+      colors.push(_format(channels[key].total / channels[key].amount));
     }
 
     callback('rgb(' + colors.join(', ') + ')');
@@ -138,7 +138,7 @@
       var color = [];
 
       for (var iterator = i; iterator <= i + 2; iterator++) {
-        color.push(this._roundTo20(this._data[i + iterator]));
+        color.push(_roundTo20(this._data[i + iterator]));
       }
 
       color = color.join(', ');
