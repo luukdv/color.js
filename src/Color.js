@@ -24,7 +24,13 @@
   }
 
   function _roundTo20(number) {
-    return Math.round(number / 20) * 20;
+    var value = Math.round(number / 20) * 20;
+
+    if (value >= 255) {
+      return 255;
+    }
+
+    return value;
   }
 
   /**
