@@ -1,9 +1,8 @@
 (function(root) {
   var Color = function(item) {
-    this._callback = null;
     this._data = null;
     this._img = null;
-    this._method = null;
+    this._callbacks = [];
     this._url = null;
 
     if (typeof item === 'object' && item.src) {
@@ -11,6 +10,9 @@
     } else if (typeof item === 'string') {
       this._url = item;
     }
+
+    this._running = true;
+    this._createImage();
   };
 
   /**
@@ -19,24 +21,24 @@
 
   Color.prototype._format = function(number) {
     return Math.round(number);
-  }
+  };
 
-  Color.prototype._roundTo15 = function(number) {
-    return Math.round(number / 15) * 15;
-  }
+  Color.prototype._roundTo20 = function(number) {
+    return Math.round(number / 20) * 20;
+  };
 
   /**
    * Internal functions
    */
 
+  Color.prototype._runCallbacks = function() {
+    this._callbacks.forEach(function(method, key) {
+      this._callbacks[key].method.call(this, this._callbacks[key].call);
+      this._callbacks.splice(key, 1);
+    }.bind(this));
+  };
+
   Color.prototype._createImage = function() {
-    // Short-circuit if data is already present from previous run
-    if (this._data) {
-      this._method();
-
-      return;
-    }
-
     this._img = document.createElement('img');
     this._img.crossOrigin = 'Anonymous';
     this._img.src = this._url;
@@ -64,13 +66,14 @@
 
     var info = context.getImageData(0, 0, this._img.width, this._img.height);
     this._data = info.data;
+    this._running = false;
 
     document.body.removeChild(canvas);
 
-    this._method();
+    this._runCallbacks();
   };
 
-  Color.prototype._average = function() {
+  Color.prototype._average = function(callback) {
     var colors = [];
     var channels = this._extractChannels();
 
@@ -78,16 +81,16 @@
       colors.push(this._format(channels[key].total / channels[key].amount));
     }
 
-    this._callback('rgb(' + colors.join(', ') + ')');
+    callback('rgb(' + colors.join(', ') + ')');
   };
 
-  Color.prototype._mostUsed = function() {
+  Color.prototype._mostUsed = function(callback) {
     var colors = this._extractColorBlocks();
     var highest = {
       count: 0,
     };
 
-    for (color in colors) {
+    for (var color in colors) {
       if (highest.count < colors[color]) {
         highest = {
           color: color,
@@ -96,7 +99,7 @@
       }
     }
 
-    this._callback('rgb(' + highest.color + ')');
+    callback('rgb(' + highest.color + ')');
   };
 
   Color.prototype._extractChannels = function() {
@@ -122,7 +125,7 @@
     }
 
     return channels;
-  }
+  };
 
   Color.prototype._extractColorBlocks = function() {
     var colors = {};
@@ -135,7 +138,7 @@
       var color = [];
 
       for (var iterator = i; iterator <= i + 2; iterator++) {
-        color.push(this._roundTo15(this._data[i + iterator]));
+        color.push(this._roundTo20(this._data[i + iterator]));
       }
 
       color = color.join(', ');
@@ -148,7 +151,7 @@
     }
 
     return colors;
-  }
+  };
 
   /**
    * External API
@@ -159,20 +162,30 @@
       throw new Error('Callback is not provided.');
     }
 
-    this._method = this._average;
-    this._callback = callback;
-    this._createImage();
-  }
+    this._callbacks.push({
+      call: callback,
+      method: this._average,
+    });
+
+    if (! this._running) {
+      this._runCallbacks();
+    }
+  };
 
   Color.prototype.mostUsed = function(callback) {
     if (typeof callback !== 'function') {
       throw new Error('Callback is not provided.');
     }
 
-    this._method = this._mostUsed;
-    this._callback = callback;
-    this._createImage();
-  }
+    this._callbacks.push({
+      call: callback,
+      method: this._mostUsed,
+    });
+
+    if (! this._running) {
+      this._runCallbacks();
+    }
+  };
 
   /**
    * Module
