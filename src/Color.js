@@ -66,10 +66,10 @@
 
     var info = context.getImageData(0, 0, this._img.width, this._img.height);
     this._data = info.data;
-    this._running = false;
 
     document.body.removeChild(canvas);
 
+    this._running = false;
     this._runCallbacks();
   };
 
@@ -153,18 +153,14 @@
     return colors;
   };
 
-  /**
-   * External API
-   */
-
-  Color.prototype.average = function(callback) {
+  Color.prototype._call = function(callback, method) {
     if (typeof callback !== 'function') {
       throw new Error('Callback is not provided.');
     }
 
     this._callbacks.push({
       call: callback,
-      method: this._average,
+      method: method,
     });
 
     if (! this._running) {
@@ -172,19 +168,16 @@
     }
   };
 
+  /**
+   * External API
+   */
+
+  Color.prototype.average = function(callback) {
+    this._call(callback, this._average);
+  };
+
   Color.prototype.mostUsed = function(callback) {
-    if (typeof callback !== 'function') {
-      throw new Error('Callback is not provided.');
-    }
-
-    this._callbacks.push({
-      call: callback,
-      method: this._mostUsed,
-    });
-
-    if (! this._running) {
-      this._runCallbacks();
-    }
+    this._call(callback, this._mostUsed);
   };
 
   /**
