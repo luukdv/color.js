@@ -38,10 +38,11 @@
    */
 
   Color.prototype._runCallbacks = function() {
-    this._callbacks.forEach(function(method, key) {
+    this._callbacks.forEach(function(cb, key) {
       this._callbacks[key].method.call(this, this._callbacks[key].call);
-      this._callbacks.splice(key, 1);
     }.bind(this));
+
+    this._callbacks = [];
   };
 
   Color.prototype._createImage = function() {
