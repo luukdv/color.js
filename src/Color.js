@@ -96,31 +96,18 @@
     callback('rgb(' + colors.join(', ') + ')');
   };
 
-  Color.prototype._getColor = function(callback) {
-    var pick = {
-      count: 0,
-    };
+  Color.prototype._leastUsed = function(callback) {
+    this._extractColorBlocks();
 
-    if (!this._colors) {
-      this._colors = this._extractColorBlocks();
-    }
+    var color = this._colors[this._colors.length - 1].color;
 
-    for (var color in this._colors) {
-      if (callback(pick.count, this._colors[color])) {
-        pick = {
-          color: color,
-          count: this._colors[color],
-        };
-      }
-    }
-
-    return pick.color;
-  }
+    callback('rgb(' + color + ')');
+  };
 
   Color.prototype._mostUsed = function(callback) {
-    var color = this._getColor(function(acc, curr) {
-      return acc < curr;
-    });
+    this._extractColorBlocks();
+
+    var color = this._colors[0].color;
 
     callback('rgb(' + color + ')');
   };
@@ -151,29 +138,49 @@
   };
 
   Color.prototype._extractColorBlocks = function() {
+    if (this._colors) {
+      return;
+    }
+
     var colors = {};
+    var sortedColors = [];
 
     for (var i = 0; i < this._size; i += (4 * this.sample)) {
       if (this._data[i + 3] < (255 / 2)) {
         continue;
       }
 
-      var color = [];
+      var rgb = [];
 
       for (var iterator = i; iterator <= i + 2; iterator++) {
-        color.push(_roundTo20(this._data[i + iterator]));
+        rgb.push(_roundTo20(this._data[i + iterator]));
       }
 
-      color = color.join(', ');
+      rgb = rgb.join(', ');
 
-      if (color in colors) {
-        colors[color]++;
+      if (rgb in colors) {
+        colors[rgb]++;
       } else {
-        colors[color] = 1;
+        colors[rgb] = 1;
       }
     }
 
-    return colors;
+    for (var color in colors) {
+      sortedColors.push({
+        color: color,
+        count: colors[color],
+      });
+    }
+
+    this._colors = sortedColors.sort(function(a, b) {
+      if (a.count < b.count) {
+        return 1;
+      } else if (a.count > b.count) {
+        return -1;
+      }
+
+      return 0;
+    });
   };
 
   Color.prototype._call = function(callback, method) {
@@ -197,6 +204,10 @@
 
   Color.prototype.average = function(callback) {
     this._call(callback, this._average);
+  };
+
+  Color.prototype.leastUsed = function(callback) {
+    this._call(callback, this._leastUsed);
   };
 
   Color.prototype.mostUsed = function(callback) {
