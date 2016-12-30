@@ -11,6 +11,8 @@
       this._url = item;
     }
 
+    this.sample = 10;
+
     this._running = true;
     this._createImage();
   };
@@ -116,7 +118,7 @@
       b: {amount: 0, total: 0},
     };
 
-    for (var i = 0; i < (this._img.width * this._img.height); i += 4) {
+    for (var i = 0; i < (this._img.width * this._img.height); i += (4 * this.sample)) {
       if (this._data[i + 3] < (255 / 2)) {
         continue;
       }
@@ -137,7 +139,7 @@
   Color.prototype._extractColorBlocks = function() {
     var colors = {};
 
-    for (var i = 0; i < (this._img.width * this._img.height); i += 4) {
+    for (var i = 0; i < (this._img.width * this._img.height); i += (4 * this.sample)) {
       if (this._data[i + 3] < (255 / 2)) {
         continue;
       }
