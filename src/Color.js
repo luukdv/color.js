@@ -1,4 +1,6 @@
 (function(root) {
+  'use strict';
+
   var Color = function(item) {
     this._data = null;
     this._callbacks = [];
