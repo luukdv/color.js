@@ -16,6 +16,7 @@
     }
 
     this.amount = 5;
+    this.blocks = 20;
     this.sample = 10;
 
     this._running = true;
@@ -28,16 +29,6 @@
 
   function _format(number) {
     return Math.round(number);
-  }
-
-  function _roundTo20(number) {
-    var value = Math.round(number / 20) * 20;
-
-    if (value >= 255) {
-      return 255;
-    }
-
-    return value;
   }
 
   /**
@@ -86,6 +77,16 @@
 
     this._running = false;
     this._runCallbacks();
+  };
+
+  Color.prototype._roundToBlocks = function(number) {
+    var value = Math.round(number / this.blocks) * this.blocks;
+
+    if (value >= 255) {
+      return 255;
+    }
+
+    return value;
   };
 
   Color.prototype._average = function(callback) {
@@ -172,7 +173,7 @@
       var rgb = [];
 
       for (var iterator = i; iterator <= i + 2; iterator++) {
-        rgb.push(_roundTo20(this._data[i + iterator]));
+        rgb.push(this._roundToBlocks(this._data[i + iterator]));
       }
 
       rgb = rgb.join(', ');
