@@ -13,6 +13,7 @@
 
     this.amount = args.amount || 5;
     this.blocks = args.blocks || 20;
+    this.format = args.format || 'rgb';
     this.sample = args.sample || 10;
 
     if (typeof item === 'object' && item.src) {
@@ -31,8 +32,21 @@
    * Internals: helpers
    */
 
-  Color.prototype._format = function(number) {
-    return Math.round(number);
+  Color.prototype._format = function(colors) {
+    switch (this.format) {
+      case 'array':
+        colors.forEach(function(color, i) {
+          colors[i] = color.split(', ');
+        });
+
+        break;
+      case 'rgb':
+        colors.forEach(function(color, i) {
+          colors[i] = 'rgb(' + color.split(',') + ')';
+        });
+    }
+
+    return colors;
   };
 
   Color.prototype._roundToBlocks = function(number) {
@@ -177,10 +191,12 @@
     var channels = this._extractChannels();
 
     for (var key in channels) {
-      colors.push(this._format(channels[key].total / channels[key].amount));
+      colors.push(Math.round(channels[key].total / channels[key].amount));
     }
 
-    callback('rgb(' + colors.join(', ') + ')');
+    colors = colors.join(', ');
+
+    callback(this._format(colors));
   };
 
   Color.prototype._leastUsed = function(callback) {
@@ -193,10 +209,10 @@
         continue;
       }
 
-      colors.push('rgb(' + this._colors[this._colors.length - i].color + ')');
+      colors.push(this._colors[this._colors.length - i].color);
     }
 
-    callback(colors);
+    callback(this._format(colors));
   };
 
   Color.prototype._mostUsed = function(callback) {
@@ -209,10 +225,10 @@
         continue;
       }
 
-      colors.push('rgb(' + this._colors[i].color + ')');
+      colors.push(this._colors[i].color);
     }
 
-    callback(colors);
+    callback(this._format(colors));
   };
 
   /**
