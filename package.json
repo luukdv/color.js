@@ -1,0 +1,17 @@
+{
+  "name": "color.js",
+  "version": "0.1.0",
+  "homepage": "https://github.com/luukdv/color.js",
+  "bugs": {
+    "url": "https://github.com/luukdv/color.js/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Luuk de Vlieger"
+  },
+  "main": "dist/Color.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/luukdv/color.js.git"
+  }
+}
