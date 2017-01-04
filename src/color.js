@@ -17,6 +17,8 @@
       this._url = item.src;
     } else if (typeof item === 'string') {
       this._url = item;
+    } else {
+      throw new Error('Invalid image type.');
     }
 
     this._running = true;
