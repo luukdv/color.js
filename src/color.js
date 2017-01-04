@@ -32,6 +32,14 @@
    * Internals: helpers
    */
 
+  Color.prototype._rgbToHex = function(r, g, b) {
+    return '#' + [r, g, b].map(function(value) {
+      var hex = parseInt(value).toString(16);
+
+      return value.length === 1 ? '0' + hex : hex;
+    }).join('');
+  };
+
   Color.prototype._format = function(colors) {
     switch (this.format) {
       case 'array':
@@ -44,6 +52,12 @@
         colors.forEach(function(color, i) {
           colors[i] = 'rgb(' + color.split(',') + ')';
         });
+      case 'hex':
+        colors.forEach(function(color, i) {
+          var rgb = color.split(', ');
+
+          colors[i] = this._rgbToHex(rgb[0], rgb[1], rgb[2]);
+        }, this);
     }
 
     return colors;
@@ -102,7 +116,7 @@
   Color.prototype._runCallbacks = function() {
     this._callbacks.forEach(function(cb, key) {
       this._callbacks[key].method.call(this, this._callbacks[key].call);
-    }.bind(this));
+    }, this);
 
     this._callbacks = [];
   };
