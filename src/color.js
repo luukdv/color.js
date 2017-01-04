@@ -25,7 +25,7 @@
     } else if (typeof item === 'string') {
       this._url = item;
     } else {
-      throw new Error('Invalid image type.');
+      throw new TypeError('Invalid image type.');
     }
 
     this._running = true;
@@ -260,7 +260,7 @@
 
   Color.prototype._call = function(callback, method) {
     if (typeof callback !== 'function') {
-      throw new Error('Callback is not provided.');
+      throw new ReferenceError('Callback is not provided.');
     }
 
     if (this._running) {
