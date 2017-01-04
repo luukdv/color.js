@@ -68,6 +68,10 @@
         break;
     }
 
+    if (colors.length === 1) {
+      return colors[0];
+    }
+
     return colors;
   };
 
