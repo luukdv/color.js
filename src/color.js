@@ -9,6 +9,8 @@
     this._size = null;
     this._url = null;
 
+    var args = args || {};
+
     this.amount = args.amount || 5;
     this.blocks = args.blocks || 20;
     this.sample = args.sample || 10;
