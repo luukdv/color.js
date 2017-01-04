@@ -15,7 +15,7 @@
     "url": "https://github.com/luukdv/color.js.git"
   },
   "scripts": {
-    "build": "uglifyjs src/color-temp.js -o dist/color-temp.js"
+    "build": "uglifyjs src/color.js -o dist/color.js"
   },
   "devDependencies": {
     "uglify-js": "^2.7.5"
