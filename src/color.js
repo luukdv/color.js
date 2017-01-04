@@ -11,7 +11,7 @@
 
     var args = args || {};
 
-    this.amount = args.amount || 5;
+    this.amount = args.amount || 3;
     this.blocks = args.blocks || 20;
     this.format = args.format || 'rgb';
     this.sample = args.sample || 10;
