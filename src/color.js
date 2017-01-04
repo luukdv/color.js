@@ -48,16 +48,20 @@
         });
 
         break;
-      case 'rgb':
-        colors.forEach(function(color, i) {
-          colors[i] = 'rgb(' + color.split(',') + ')';
-        });
       case 'hex':
         colors.forEach(function(color, i) {
           var rgb = color.split(', ');
 
           colors[i] = this._rgbToHex(rgb[0], rgb[1], rgb[2]);
         }, this);
+
+        break;
+      case 'rgb':
+        colors.forEach(function(color, i) {
+          colors[i] = 'rgb(' + color.split(',') + ')';
+        });
+
+        break;
     }
 
     return colors;
