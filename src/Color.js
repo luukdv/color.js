@@ -1,7 +1,7 @@
 (function(root) {
   'use strict';
 
-  var Color = function(item) {
+  var Color = function(item, args) {
     this._data = null;
     this._callbacks = [];
     this._colors = null;
@@ -9,27 +9,37 @@
     this._size = null;
     this._url = null;
 
+    this.amount = args.amount || 5;
+    this.blocks = args.blocks || 20;
+    this.sample = args.sample || 10;
+
     if (typeof item === 'object' && item.src) {
       this._url = item.src;
     } else if (typeof item === 'string') {
       this._url = item;
     }
 
-    this.amount = 5;
-    this.blocks = 20;
-    this.sample = 10;
-
     this._running = true;
     this._createImage();
   };
 
   /**
-   * Helpers
+   * Internals: helpers
    */
 
-  function _format(number) {
+  Color.prototype._format = function(number) {
     return Math.round(number);
-  }
+  };
+
+  Color.prototype._roundToBlocks = function(number) {
+    var value = Math.round(number / this.blocks) * this.blocks;
+
+    if (value >= 255) {
+      return 255;
+    }
+
+    return value;
+  };
 
   /**
    * Internals
@@ -79,22 +89,12 @@
     this._runCallbacks();
   };
 
-  Color.prototype._roundToBlocks = function(number) {
-    var value = Math.round(number / this.blocks) * this.blocks;
-
-    if (value >= 255) {
-      return 255;
-    }
-
-    return value;
-  };
-
   Color.prototype._average = function(callback) {
     var colors = [];
     var channels = this._extractChannels();
 
     for (var key in channels) {
-      colors.push(_format(channels[key].total / channels[key].amount));
+      colors.push(this._format(channels[key].total / channels[key].amount));
     }
 
     callback('rgb(' + colors.join(', ') + ')');
