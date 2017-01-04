@@ -212,7 +212,7 @@
       colors.push(Math.round(channels[key].total / channels[key].amount));
     }
 
-    colors = colors.join(', ');
+    colors = [colors.join(', ')];
 
     callback(this._format(colors));
   };
