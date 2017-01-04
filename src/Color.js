@@ -42,16 +42,8 @@
   };
 
   /**
-   * Internals
+   * Internals: retrieve image data
    */
-
-  Color.prototype._runCallbacks = function() {
-    this._callbacks.forEach(function(cb, key) {
-      this._callbacks[key].method.call(this, this._callbacks[key].call);
-    }.bind(this));
-
-    this._callbacks = [];
-  };
 
   Color.prototype._createImage = function() {
     this._img = document.createElement('img');
@@ -89,48 +81,17 @@
     this._runCallbacks();
   };
 
-  Color.prototype._average = function(callback) {
-    var colors = [];
-    var channels = this._extractChannels();
+  Color.prototype._runCallbacks = function() {
+    this._callbacks.forEach(function(cb, key) {
+      this._callbacks[key].method.call(this, this._callbacks[key].call);
+    }.bind(this));
 
-    for (var key in channels) {
-      colors.push(this._format(channels[key].total / channels[key].amount));
-    }
-
-    callback('rgb(' + colors.join(', ') + ')');
+    this._callbacks = [];
   };
 
-  Color.prototype._leastUsed = function(callback) {
-    this._extractColorBlocks();
-
-    var colors = [];
-
-    for (var i = 1; i <= this.amount; i++) {
-      if (!this._colors[this._colors.length - i]) {
-        continue;
-      }
-
-      colors.push('rgb(' + this._colors[this._colors.length - i].color + ')');
-    }
-
-    callback(colors);
-  };
-
-  Color.prototype._mostUsed = function(callback) {
-    this._extractColorBlocks();
-
-    var colors = [];
-
-    for (var i = 0; i < this.amount; i++) {
-      if (!this._colors[i]) {
-        continue;
-      }
-
-      colors.push('rgb(' + this._colors[i].color + ')');
-    }
-
-    callback(colors);
-  };
+  /**
+   * Internals: color extraction
+   */
 
   Color.prototype._extractChannels = function() {
     var channels = {
@@ -202,6 +163,57 @@
       return 0;
     });
   };
+
+  /**
+   * Internals: API functions
+   */
+
+  Color.prototype._average = function(callback) {
+    var colors = [];
+    var channels = this._extractChannels();
+
+    for (var key in channels) {
+      colors.push(this._format(channels[key].total / channels[key].amount));
+    }
+
+    callback('rgb(' + colors.join(', ') + ')');
+  };
+
+  Color.prototype._leastUsed = function(callback) {
+    this._extractColorBlocks();
+
+    var colors = [];
+
+    for (var i = 1; i <= this.amount; i++) {
+      if (!this._colors[this._colors.length - i]) {
+        continue;
+      }
+
+      colors.push('rgb(' + this._colors[this._colors.length - i].color + ')');
+    }
+
+    callback(colors);
+  };
+
+  Color.prototype._mostUsed = function(callback) {
+    this._extractColorBlocks();
+
+    var colors = [];
+
+    for (var i = 0; i < this.amount; i++) {
+      if (!this._colors[i]) {
+        continue;
+      }
+
+      colors.push('rgb(' + this._colors[i].color + ')');
+    }
+
+    callback(colors);
+  };
+
+  /**
+   * Internals: API call
+   */
 
   Color.prototype._call = function(callback, method) {
     if (typeof callback !== 'function') {
