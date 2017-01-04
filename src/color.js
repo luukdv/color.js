@@ -217,36 +217,37 @@
     callback(this._format(colors));
   };
 
-  Color.prototype._leastUsed = function(callback) {
+  Color.prototype._process = function(callback, apply) {
     this._extractColorBlocks();
 
     var colors = [];
 
-    for (var i = 1; i <= this.amount; i++) {
-      if (!this._colors[this._colors.length - i]) {
-        continue;
-      }
-
-      colors.push(this._colors[this._colors.length - i].color);
-    }
-
+    apply(colors);
     callback(this._format(colors));
   };
 
-  Color.prototype._mostUsed = function(callback) {
-    this._extractColorBlocks();
+  Color.prototype._leastUsed = function(callback) {
+    this._process(callback, function(colors) {
+      for (var i = 1; i <= this.amount; i++) {
+        if (!this._colors[this._colors.length - i]) {
+          continue;
+        }
 
-    var colors = [];
-
-    for (var i = 0; i < this.amount; i++) {
-      if (!this._colors[i]) {
-        continue;
+        colors.push(this._colors[this._colors.length - i].color);
       }
+    }.bind(this));
+  };
 
-      colors.push(this._colors[i].color);
-    }
+  Color.prototype._mostUsed = function(callback) {
+    this._process(callback, function(colors) {
+      for (var i = 0; i < this.amount; i++) {
+        if (!this._colors[i]) {
+          continue;
+        }
 
-    callback(this._format(colors));
+        colors.push(this._colors[i].color);
+      }
+    }.bind(this));
   };
 
   /**
