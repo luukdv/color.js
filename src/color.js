@@ -100,7 +100,7 @@
     var canvas = document.createElement('canvas');
 
     if (typeof canvas.getContext === 'undefined') {
-      return false;
+      throw new Error('HTML5 canvas is not supported.');
     }
 
     var context = canvas.getContext('2d');
