@@ -91,7 +91,6 @@
     this._img.src = this._url;
 
     this._img.addEventListener('load', function() {
-      this._size = this._img.height * this._img.width;
       this._createCanvas();
     }.bind(this));
   };
@@ -114,6 +113,7 @@
 
     var info = context.getImageData(0, 0, this._img.width, this._img.height);
     this._data = info.data;
+    this._size = this._data.length;
 
     document.body.removeChild(canvas);
 
@@ -171,13 +171,11 @@
         continue;
       }
 
-      var rgb = [];
-
-      for (var iterator = i; iterator <= i + 2; iterator++) {
-        rgb.push(this._roundToBlocks(this._data[i + iterator]));
-      }
-
-      rgb = rgb.join(', ');
+      var rgb = [
+        this._roundToBlocks(this._data[i]),
+        this._roundToBlocks(this._data[i + 1]),
+        this._roundToBlocks(this._data[i + 2]),
+      ].join(', ');
 
       if (rgb in colors) {
         colors[rgb]++;
