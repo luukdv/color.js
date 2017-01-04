@@ -16,6 +16,10 @@
     this.format = args.format || 'rgb';
     this.sample = args.sample || 10;
 
+    if (typeof item === 'function') {
+      item = item();
+    }
+
     if (typeof item === 'object' && item.src) {
       this._url = item.src;
     } else if (typeof item === 'string') {
