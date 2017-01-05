@@ -59,7 +59,7 @@
         }, this);
 
         break;
-      case 'rgb':
+      default:
         colors.forEach(function(color, i) {
           colors[i] = 'rgb(' + color.split(',') + ')';
         });
