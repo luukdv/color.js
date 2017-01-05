@@ -15,9 +15,12 @@
     "url": "https://github.com/luukdv/color.js.git"
   },
   "scripts": {
-    "build": "uglifyjs src/color.js -c -m -r 'Color' -o dist/color.js"
+    "build": "uglifyjs src/color.js -c -m -r 'Color' -o dist/color.js",
+    "test": "ava"
   },
   "devDependencies": {
+    "ava": "^0.17.0",
+    "browser-env": "^2.0.19",
     "uglify-js": "^2.7.5"
   }
 }
