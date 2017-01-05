@@ -70,6 +70,17 @@ test('RGB format', t => {
   t.is(mock._format([rgb]), 'rgb(' + rgb + ')');
 });
 
-test('Block rounding', t => {
+test('Round to blocks', t => {
   t.is(mock._roundToBlocks(96), 100);
+});
+
+test('Extract channels', t => {
+  t.deepEqual(mock._extractChannels(), {
+    amount: 240,
+    colors: {
+      r: 20606,
+      g: 20465,
+      b: 22918,
+    },
+  });
 });
