@@ -16,7 +16,7 @@
   },
   "scripts": {
     "build": "uglifyjs src/color.js -c -m -r 'Color' -o dist/color.js",
-    "test": "ava"
+    "test": "npm run build && ava"
   },
   "devDependencies": {
     "ava": "^0.17.0",
