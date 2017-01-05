@@ -6,7 +6,6 @@
     this._callbacks = [];
     this._colors = null;
     this._img = null;
-    this._size = null;
     this._url = null;
 
     var args = args || {};
@@ -117,7 +116,6 @@
 
     var info = context.getImageData(0, 0, this._img.width, this._img.height);
     this._data = info.data;
-    this._size = this._data.length;
 
     document.body.removeChild(canvas);
 
@@ -144,7 +142,7 @@
       b: {amount: 0, total: 0},
     };
 
-    for (var i = 0; i < this._size; i += (4 * this.sample)) {
+    for (var i = 0; i < this._data.length; i += (4 * this.sample)) {
       if (this._data[i + 3] < (255 / 2)) {
         continue;
       }
@@ -170,7 +168,7 @@
     var colors = {};
     var sortedColors = [];
 
-    for (var i = 0; i < this._size; i += (4 * this.sample)) {
+    for (var i = 0; i < this._data.length; i += (4 * this.sample)) {
       if (this._data[i + 3] < (255 / 2)) {
         continue;
       }
