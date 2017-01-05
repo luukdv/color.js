@@ -17,13 +17,19 @@ test('Call without arguments', t => {
 });
 
 test('Call with arguments', t => {
+  const amount = 5;
+  const blocks = 30;
+  const format = 'hex';
+
   const color = new Color('fake', {
-    amount: 5,
-    blocks: 30,
+    amount: amount,
+    blocks: blocks,
+    format: format,
   });
 
-  t.is(color.amount, 5);
-  t.is(color.blocks, 30);
+  t.is(color.amount, amount);
+  t.is(color.blocks, blocks);
+  t.is(color.format, format);
 });
 
 test('Call with return value', t => {
