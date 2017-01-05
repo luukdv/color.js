@@ -26,6 +26,12 @@ test('Call with arguments', t => {
   t.is(color.blocks, 30);
 });
 
+test('Call with return value', t => {
+  t.notThrows(() => {
+    new Color(() => 'fake');
+  });
+});
+
 test('RGB to HEX', t => {
   t.is(mock._rgbToHex(255, 150, 50), '#ff9632');
   t.is(mock._rgbToHex(136, 127, 118), '#887f76');
