@@ -16,6 +16,16 @@ test('Call without arguments', t => {
   t.is(error.name, 'TypeError');
 });
 
+test('Call with arguments', t => {
+  const color = new Color('fake', {
+    amount: 5,
+    blocks: 30,
+  });
+
+  t.is(color.amount, 5);
+  t.is(color.blocks, 30);
+});
+
 test('RGB to HEX', t => {
   t.is(mock._rgbToHex(255, 150, 50), '#ff9632');
   t.is(mock._rgbToHex(136, 127, 118), '#887f76');
