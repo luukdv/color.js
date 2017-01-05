@@ -2,10 +2,11 @@
   'use strict';
 
   var Color = function(item, args) {
-    this._data = null;
     this._callbacks = [];
     this._colors = null;
+    this._data = null;
     this._img = null;
+    this._running = true;
     this._url = null;
 
     var args = args || {};
@@ -27,7 +28,6 @@
       throw new TypeError('Invalid image type.');
     }
 
-    this._running = true;
     this._createImage();
   };
 
@@ -95,6 +95,9 @@
 
     this._img.addEventListener('load', function() {
       this._createCanvas();
+
+      this._running = false;
+      this._runCallbacks();
     }.bind(this));
   };
 
@@ -118,9 +121,6 @@
     this._data = info.data;
 
     document.body.removeChild(canvas);
-
-    this._running = false;
-    this._runCallbacks();
   };
 
   Color.prototype._runCallbacks = function() {
@@ -165,7 +165,7 @@
     }
 
     var colors = {};
-    var sortedColors = [];
+    var colorList = [];
 
     for (var i = 0; i < this._data.length; i += (4 * this.sample)) {
       if (this._data[i + 3] < (255 / 2)) {
@@ -186,13 +186,13 @@
     }
 
     for (var color in colors) {
-      sortedColors.push({
+      colorList.push({
         color: color,
         count: colors[color],
       });
     }
 
-    this._colors = sortedColors.sort(function(a, b) {
+    this._colors = colorList.sort(function(a, b) {
       if (a.count < b.count) {
         return 1;
       } else if (a.count > b.count) {
