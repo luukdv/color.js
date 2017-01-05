@@ -84,3 +84,17 @@ test('Extract channels', t => {
     },
   });
 });
+
+test('Extract color blocks', t => {
+  const colors = mock._extractColorBlocks();
+
+  t.deepEqual(colors[0], {
+    color: '0, 60, 140',
+    count: 71,
+  });
+
+  t.deepEqual(colors[colors.length - 1], {
+    color: '220, 20, 40',
+    count: 1,
+  });
+});
