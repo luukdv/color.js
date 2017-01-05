@@ -137,9 +137,8 @@
 
   Color.prototype._extractChannels = function() {
     var channels = {
-      r: {amount: 0, total: 0},
-      g: {amount: 0, total: 0},
-      b: {amount: 0, total: 0},
+      amount: 0,
+      colors: {r: 0, g: 0, b: 0},
     };
 
     for (var i = 0; i < this._data.length; i += (4 * this.sample)) {
@@ -149,10 +148,10 @@
 
       var iterator = i;
 
-      for (var key in channels) {
-        channels[key].amount++;
-        channels[key].total += this._data[iterator];
+      channels.amount++;
 
+      for (var key in channels.colors) {
+        channels.colors[key] += this._data[iterator];
         iterator++;
       }
     }
@@ -212,8 +211,8 @@
     var colors = [];
     var channels = this._extractChannels();
 
-    for (var key in channels) {
-      colors.push(Math.round(channels[key].total / channels[key].amount));
+    for (var key in channels.colors) {
+      colors.push(Math.round(channels.colors[key] / channels.amount));
     }
 
     colors = [colors.join(', ')];
