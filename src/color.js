@@ -160,10 +160,6 @@
   };
 
   Color.prototype._extractColorBlocks = function() {
-    if (this._colors) {
-      return;
-    }
-
     var colors = {};
     var colorList = [];
 
@@ -192,7 +188,7 @@
       });
     }
 
-    this._colors = colorList.sort(function(a, b) {
+    return colorList.sort(function(a, b) {
       if (a.count < b.count) {
         return 1;
       } else if (a.count > b.count) {
@@ -221,7 +217,9 @@
   };
 
   Color.prototype._process = function(callback, apply) {
-    this._extractColorBlocks();
+    if (!this._colors) {
+      this._colors = this._extractColorBlocks();
+    }
 
     var colors = [];
 
