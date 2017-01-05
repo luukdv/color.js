@@ -38,6 +38,12 @@ test('Call with return value', t => {
   });
 });
 
+test('Array format', t => {
+  t.notThrows(() => {
+    new Color(() => 'fake');
+  });
+});
+
 test('RGB to HEX', t => {
   t.is(mock._rgbToHex(255, 150, 50), '#ff9632');
   t.is(mock._rgbToHex(136, 127, 118), '#887f76');
