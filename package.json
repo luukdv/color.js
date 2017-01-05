@@ -16,8 +16,8 @@
   },
   "scripts": {
     "build": "uglifyjs src/color.js -c -m -r 'Color' -o dist/color.js",
-    "test": "npm run build && ava --tap | tap-nyan",
-    "watch:test": "ava -w"
+    "test": "npm run build && ava --fail-fast --tap | tap-nyan -v",
+    "watch:test": "ava --fail-fast -v -w"
   },
   "devDependencies": {
     "ava": "^0.17.0",
