@@ -21,14 +21,17 @@ test('Call without arguments', t => {
 test('Call with arguments', t => {
   const amount = 5;
   const blocks = 30;
+  const sample = 20;
 
   const color = new Color('fake', {
     amount: amount,
     blocks: blocks,
+    sample: sample,
   });
 
   t.is(color.amount, amount);
   t.is(color.blocks, blocks);
+  t.is(color.sample, sample);
 });
 
 test('Call with return value', t => {
@@ -65,4 +68,8 @@ test('RGB format', t => {
   });
 
   t.is(mock._format([rgb]), 'rgb(' + rgb + ')');
+});
+
+test('Block rounding', t => {
+  t.is(mock._roundToBlocks(96), 100);
 });
