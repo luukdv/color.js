@@ -61,6 +61,7 @@ The default configuration options. Explanations of each option can be found belo
 #### Amount
 
 Only applicable for [mostUsed](#most-used) & [leastUsed](#least-used).
+
 The amount of colors that should be returned. When set to `1` a singular value is returned, otherwise an `array` of values.
 
 #### Format
@@ -82,6 +83,7 @@ Configures how many pixels of an image should be processed. For example, a value
 #### Group
 
 Only applicable for [mostUsed](#most-used) & [leastUsed](#least-used).
+
 Configures how many 'neighboring' colors should be combined into one color. A value of `1` would mean _every_ individual color would be considered, but this is often not ideal. Especially in photographs there's usually a lot of color data, and grouping colors would give more usable results in most cases. In the first example below, `group` is set to `5` and a lot of individual colors in the sea are returned. When more grouping is applied (`30` in the second example), the results become more distinct.
 
 ![Group](img/group.jpg)
@@ -96,6 +98,8 @@ Returns the average color of an image.
 color.average((result) => {...});
 ```
 
+![Average](img/average.jpg)
+
 ### Most used
 
 Returns the most used color(s) in an image. Can be requested as a single color or palette of colors (see [amount](#amount)).
@@ -103,6 +107,8 @@ Returns the most used color(s) in an image. Can be requested as a single color o
 ```js
 color.mostUsed((result) => {...});
 ```
+
+![Most used](img/most-used.jpg)
 
 ### Least used
 
