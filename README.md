@@ -44,3 +44,20 @@ const color = new Color('https://unsplash.com/example.jpg');
 ```
 
 When using an external image, CORS should of course be enabled on the source.
+
+### Configuration (optional)
+
+The default configuration options. Explanations of each option can be found below.
+
+```js
+{
+  amount: 3,
+  blocks: 20,
+  format: 'rgb',
+  sample: 10,
+}
+```
+
+#### Amount
+
+The amount of colors that should be returned. When set to `1`, a singular value is returned. Otherwise, an array of values.
