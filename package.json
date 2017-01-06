@@ -2,7 +2,14 @@
   "name": "color.js",
   "version": "0.1.0",
   "description": "Extract image colors with JavaScript. Supports DOM elements and (external) URL's.",
-  "keywords": ["color", "extract", "palette", "average", "image", "photo"],
+  "keywords": [
+    "average",
+    "color",
+    "extract",
+    "image",
+    "palette",
+    "photo"
+  ],
   "homepage": "https://github.com/luukdv/color.js",
   "bugs": {
     "url": "https://github.com/luukdv/color.js/issues"
