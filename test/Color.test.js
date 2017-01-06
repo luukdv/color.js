@@ -98,3 +98,17 @@ test('Extract color blocks', t => {
     count: 1,
   });
 });
+
+test('API without callback', t => {
+  const error = t.throws(() => {
+    mock.average();
+  });
+
+  t.is(error.name, 'ReferenceError');
+});
+
+test('API with callback', t => {
+  t.notThrows(() => {
+    mock.average(() => {});
+  });
+});
