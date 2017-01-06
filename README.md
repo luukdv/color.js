@@ -40,7 +40,7 @@ const color = new Color('image.jpg');
 ```
 
 ```js
-const color = new Color('https://unsplash.com/example.jpg');
+const color = new Color('https://example.com/image.jpg');
 ```
 
 When using an external image, CORS should of course be enabled on the source.
@@ -74,11 +74,15 @@ The format in which colors should be returned. Options are `'rgb'` (default), `'
 
 #### Sample
 
-The `sample` option describes how many pixels of an image should be processed. For example, a value of `20` means every 20th pixel is interpreted. A higher value means less accurate results, but better performance. An example of default sampling (`10`) on a 593x393 image:
+Configures how many pixels of an image should be processed. For example, a value of `20` means every 20th pixel is interpreted. A higher value means less accurate results, but better performance. An example of default sampling (`10`) on a 593x393 image:
 
 ![Sample](img/sample.jpg)
 
 #### Blocks
+
+Configures how many 'neighboring' colors should be combined into one color. A value of `1` would mean _every_ individual color would be considered, but this is often not ideal. Especially in photographs there's usually a lot of color data, and grouping colors would give more usable results in most cases. In the first example below, `blocks` is set to `5` and a lot of individual colors in the sea show are returned. When some more is applied (`30` in the second example), the results become more distinct.
+
+![Blocks](img/blocks.jpg)
 
 ## API
 
