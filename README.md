@@ -28,7 +28,7 @@ You can pass two arguments, an image and a configuration `object`.
 
 ### Image (required)
 
-Can be a DOM element or a URL.
+Can be a DOM element or URL.
 
 ```js
 const img = document.getElementById('image');
@@ -43,7 +43,7 @@ const color = new Color('image.jpg');
 const color = new Color('https://example.com/image.jpg');
 ```
 
-When using an external image, CORS should of course be enabled on the source.
+When using an external image, [CORS](http://enable-cors.org/) should of course be enabled on the source.
 
 ### Configuration (optional)
 
@@ -80,7 +80,7 @@ Configures how many pixels of an image should be processed. For example, a value
 
 #### Group
 
-Configures how many 'neighboring' colors should be combined into one color. A value of `1` would mean _every_ individual color would be considered, but this is often not ideal. Especially in photographs there's usually a lot of color data, and grouping colors would give more usable results in most cases. In the first example below, `group` is set to `5` and a lot of individual colors in the sea show are returned. When more grouping is applied (`30` in the second example), the results become more distinct.
+Configures how many 'neighboring' colors should be combined into one color. A value of `1` would mean _every_ individual color would be considered, but this is often not ideal. Especially in photographs there's usually a lot of color data, and grouping colors would give more usable results in most cases. In the first example below, `group` is set to `5` and a lot of individual colors in the sea are returned. When more grouping is applied (`30` in the second example), the results become more distinct.
 
 ![Group](img/group.jpg)
 
