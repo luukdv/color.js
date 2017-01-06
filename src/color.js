@@ -39,7 +39,7 @@
     return '#' + [r, g, b].map(function(value) {
       var hex = parseInt(value).toString(16);
 
-      return value.toString(10).length === 1 ? '0' + hex : hex;
+      return hex.length === 1 ? '0' + hex : hex;
     }).join('');
   };
 

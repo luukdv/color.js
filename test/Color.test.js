@@ -43,7 +43,8 @@ test('Call with return value', t => {
 test('RGB to HEX', t => {
   t.is(mock._rgbToHex(255, 150, 50), '#ff9632');
   t.is(mock._rgbToHex(136, 127, 118), '#887f76');
-  t.is(mock._rgbToHex(94, 0, 0), '#5e0000');
+  t.is(mock._rgbToHex(0, 194, 0), '#00c200');
+  t.is(mock._rgbToHex(10, 0, 0), '#0a0000');
 });
 
 test('Array format', t => {
