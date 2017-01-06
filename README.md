@@ -4,6 +4,12 @@ Extract colors from an image using JavaScript. Images that are already present i
 
 ## Install
 
+Yarn:
+
+```sh
+yarn add luukdv/color.js
+```
+
 Manually:
 
 ```html
