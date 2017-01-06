@@ -7,7 +7,13 @@ Extract colors from an image using JavaScript. Images that are already present i
 Yarn:
 
 ```sh
-yarn add luukdv/color.js
+yarn add color.js
+```
+
+NPM:
+
+```sh
+npm install color.js --save
 ```
 
 Manually:
