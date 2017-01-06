@@ -1,6 +1,6 @@
 # Color.js 🎨
 
-Extract colors from an image using JavaScript. Images that are already present in the DOM are supported, as well as (external) URL's.
+Extract colors from an image using JavaScript. Images that are already present in the DOM are supported, as well as (external) URL's. Size: 1,6kb (gzip).
 
 ## Install
 
