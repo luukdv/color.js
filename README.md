@@ -54,7 +54,7 @@ The default configuration options. Explanations of each option can be found belo
   amount: 3,
   format: 'rgb',
   sample: 10,
-  blocks: 20,
+  group: 20,
 }
 ```
 
@@ -78,11 +78,11 @@ Configures how many pixels of an image should be processed. For example, a value
 
 ![Sample](img/sample.jpg)
 
-#### Blocks
+#### Group
 
-Configures how many 'neighboring' colors should be combined into one color. A value of `1` would mean _every_ individual color would be considered, but this is often not ideal. Especially in photographs there's usually a lot of color data, and grouping colors would give more usable results in most cases. In the first example below, `blocks` is set to `5` and a lot of individual colors in the sea show are returned. When some more is applied (`30` in the second example), the results become more distinct.
+Configures how many 'neighboring' colors should be combined into one color. A value of `1` would mean _every_ individual color would be considered, but this is often not ideal. Especially in photographs there's usually a lot of color data, and grouping colors would give more usable results in most cases. In the first example below, `group` is set to `5` and a lot of individual colors in the sea show are returned. When more grouping is applied (`30` in the second example), the results become more distinct.
 
-![Blocks](img/blocks.jpg)
+![Group](img/group.jpg)
 
 ## API
 

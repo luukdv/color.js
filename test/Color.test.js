@@ -20,17 +20,17 @@ test('Call without arguments', t => {
 
 test('Call with arguments', t => {
   const amount = 5;
-  const blocks = 30;
+  const group = 30;
   const sample = 20;
 
   const color = new Color('fake', {
     amount: amount,
-    blocks: blocks,
+    group: group,
     sample: sample,
   });
 
   t.is(color.amount, amount);
-  t.is(color.blocks, blocks);
+  t.is(color.group, group);
   t.is(color.sample, sample);
 });
 
@@ -70,8 +70,8 @@ test('RGB format', t => {
   t.is(mock._format([rgb]), 'rgb(' + rgb + ')');
 });
 
-test('Round to blocks', t => {
-  t.is(mock._roundToBlocks(96), 100);
+test('Round to groups', t => {
+  t.is(mock._roundToGroups(96), 100);
 });
 
 test('Extract channels', t => {
@@ -85,8 +85,8 @@ test('Extract channels', t => {
   });
 });
 
-test('Extract color blocks', t => {
-  const colors = mock._extractColorBlocks();
+test('Extract color groups', t => {
+  const colors = mock._extractColorGroups();
 
   t.deepEqual(colors[0], {
     color: '0, 60, 140',

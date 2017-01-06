@@ -12,8 +12,8 @@
     var args = args || {};
 
     this.amount = args.amount || 3;
-    this.blocks = args.blocks || 20;
     this.format = args.format || 'rgb';
+    this.group = args.group || 20;
     this.sample = args.sample || 10;
 
     if (typeof item === 'function') {
@@ -74,8 +74,8 @@
     return colors;
   };
 
-  Color.prototype._roundToBlocks = function(number) {
-    var value = Math.round(number / this.blocks) * this.blocks;
+  Color.prototype._roundToGroups = function(number) {
+    var value = Math.round(number / this.group) * this.group;
 
     if (value >= 255) {
       return 255;
@@ -159,7 +159,7 @@
     return channels;
   };
 
-  Color.prototype._extractColorBlocks = function() {
+  Color.prototype._extractColorGroups = function() {
     var colors = {};
     var colorList = [];
 
@@ -169,9 +169,9 @@
       }
 
       var rgb = [
-        this._roundToBlocks(this._data[i]),
-        this._roundToBlocks(this._data[i + 1]),
-        this._roundToBlocks(this._data[i + 2]),
+        this._roundToGroups(this._data[i]),
+        this._roundToGroups(this._data[i + 1]),
+        this._roundToGroups(this._data[i + 2]),
       ].join(', ');
 
       if (rgb in colors) {
@@ -218,7 +218,7 @@
 
   Color.prototype._process = function(callback, apply) {
     if (!this._colors) {
-      this._colors = this._extractColorBlocks();
+      this._colors = this._extractColorGroups();
     }
 
     var colors = [];
