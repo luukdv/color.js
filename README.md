@@ -24,7 +24,7 @@ color.mostUsed((result) => {
 
 ## Options
 
-You can pass two arguments, an image and a configuration object.
+You can pass two arguments, an image and a configuration `object`.
 
 ### Image (required)
 
@@ -52,12 +52,30 @@ The default configuration options. Explanations of each option can be found belo
 ```js
 {
   amount: 3,
-  blocks: 20,
   format: 'rgb',
   sample: 10,
+  blocks: 20,
 }
 ```
 
 #### Amount
 
-The amount of colors that should be returned. When set to `1`, a singular value is returned. Otherwise, an array of values.
+The amount of colors that should be returned. When set to `1` a singular value is returned, otherwise an `array` of values.
+
+#### Format
+
+The format in which colors should be returned. Options are `'rgb'` (default), `'hex'` and `'array'`.
+
+```js
+'rgb(241, 221, 63)' // 'rgb'
+'#f1dd3f' // 'hex'
+[241, 221, 63] // 'array'
+```
+
+## API
+
+### Average
+
+### Most used
+
+### Least used
