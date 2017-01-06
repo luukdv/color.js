@@ -1,4 +1,4 @@
-# Color.js
+# Color.js 🎨
 
 Extract colors from an image using JavaScript. Images that are already present in the DOM are supported, as well as (external) URL's.
 
@@ -71,6 +71,14 @@ The format in which colors should be returned. Options are `'rgb'` (default), `'
 '#f1dd3f' // 'hex'
 [241, 221, 63] // 'array'
 ```
+
+#### Sample
+
+The `sample` option describes how many pixels of an image should be processed. For example, a value of `20` means every 20th pixel is interpreted. A higher value means less accurate results, but better performance. An example of default sampling (`10`) on a 593x393 image:
+
+![Sample](img/sample.jpg)
+
+#### Blocks
 
 ## API
 
