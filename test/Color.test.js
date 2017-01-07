@@ -5,10 +5,18 @@ import test from 'ava';
 
 browserEnv();
 
-const mock = new Color('fake');
-const rgb = '0, 128, 255';
+function createMock() {
+  const mock = new Color('fake');
 
-mock._data = imageData;
+  mock._running = false;
+  mock._data = imageData;
+
+  return mock;
+}
+
+/**
+ * General
+ */
 
 test('Call without arguments', t => {
   const error = t.throws(() => {
@@ -39,6 +47,13 @@ test('Call with return value', t => {
     new Color(() => 'fake');
   });
 });
+
+/**
+ * Helpers
+ */
+
+const mock = createMock();
+const rgb = '0, 128, 255';
 
 test('RGB to HEX', t => {
   t.is(mock._rgbToHex(255, 150, 50), '#ff9632');
@@ -75,6 +90,10 @@ test('Round to groups', t => {
   t.is(mock._roundToGroups(96), 100);
 });
 
+/**
+ * Color extraction
+ */
+
 test('Extract channels', t => {
   t.deepEqual(mock._extractChannels(), {
     amount: 240,
@@ -99,6 +118,10 @@ test('Extract color groups', t => {
     count: 1,
   });
 });
+
+/**
+ * API
+ */
 
 test('API without callback', t => {
   const error = t.throws(() => {
