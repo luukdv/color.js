@@ -34,6 +34,10 @@ color.mostUsed((result) => {
 });
 ```
 
+## Browser support
+
+Pretty much everything, except for IE10 and lower.
+
 ## Options
 
 You can pass two arguments, an image and a configuration `object`.
