@@ -136,3 +136,49 @@ test('API with callback', t => {
     mock.average(() => {});
   });
 });
+
+test.cb('Average', t => {
+  mock.average(result => {
+    t.is(result, 'rgb(86, 85, 95)');
+    t.end();
+  });
+});
+
+test.cb('Most used', t => {
+  mock.mostUsed(result => {
+    t.deepEqual(result, [
+      'rgb(0, 60, 140)',
+      'rgb(220, 0, 40)',
+      'rgb(0, 160, 60)',
+    ]);
+    t.end();
+  });
+});
+
+test.cb('Least used', t => {
+  mock.leastUsed(result => {
+    t.deepEqual(result, [
+      'rgb(220, 20, 40)',
+      'rgb(40, 160, 100)',
+      'rgb(240, 255, 240)',
+    ]);
+    t.end();
+  });
+});
+
+const singular = createMock();
+singular.amount = 1;
+
+test.cb('Most used: singular', t => {
+  singular.mostUsed(result => {
+    t.is(result, 'rgb(0, 60, 140)');
+    t.end();
+  });
+});
+
+test.cb('Least used: singular', t => {
+  singular.leastUsed(result => {
+    t.is(result, 'rgb(220, 20, 40)');
+    t.end();
+  });
+});
