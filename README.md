@@ -29,7 +29,7 @@ const color = new Color('js-logo.jpg', {
   amount: 1
 });
 
-color.mostUsed((result) => {
+color.mostUsed(result => {
   console.log(result); // rgb(241, 221, 63)
 });
 ```
@@ -111,7 +111,7 @@ Configures how many similar colors should be combined into one color. A value of
 Returns the average color of an image.
 
 ```js
-color.average((result) => {...});
+color.average(result => {...});
 ```
 
 ![Average](img/average.jpg)
@@ -121,7 +121,7 @@ color.average((result) => {...});
 Returns the most used color(s) in an image. Can be requested as a single color or palette of colors (see [amount](#amount)).
 
 ```js
-color.mostUsed((result) => {...});
+color.mostUsed(result => {...});
 ```
 
 ![Most used](img/most-used.jpg)
@@ -131,5 +131,5 @@ color.mostUsed((result) => {...});
 Returns the least used color(s) in an image. Can be requested as a single color or palette of colors (see [amount](#amount)).
 
 ```js
-color.leastUsed((result) => {...});
+color.leastUsed(result => {...});
 ```
