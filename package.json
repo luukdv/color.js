@@ -8,7 +8,8 @@
     "extract",
     "image",
     "palette",
-    "photo"
+    "photo",
+    "rgb"
   ],
   "homepage": "https://github.com/luukdv/color.js",
   "bugs": {
