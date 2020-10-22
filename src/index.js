@@ -24,13 +24,10 @@ const getImageData = (src) => new Promise((resolve, reject) => {
     canvas.style.display = 'none'
     canvas.height = img.height
     canvas.width = img.width
-
-    document.body.appendChild(canvas)
     context.drawImage(img, 0, 0)
 
     const data = context.getImageData(0, 0, img.width, img.height).data
 
-    document.body.removeChild(canvas)
     resolve(data)
   }
   img.onerror = () => reject(Error('Image loading failed.'))
@@ -38,7 +35,7 @@ const getImageData = (src) => new Promise((resolve, reject) => {
   img.src = src
 })
 
-const extractAverage = (data, args) => {
+const getAverage = (data, args) => {
   const interval = 4 * args.sample
   const amount = data.length / interval
   const rgb = { r: 0, g: 0, b: 0 }
@@ -56,7 +53,7 @@ const extractAverage = (data, args) => {
   ], args.format)
 }
 
-const extractGroups = (data, args) => {
+const getProminent = (data, args) => {
 }
 
 const process = (item, args, fn) => new Promise((resolve, reject) =>
@@ -65,7 +62,7 @@ const process = (item, args, fn) => new Promise((resolve, reject) =>
     .catch((error) => reject(error))
 )
 
-const average = (item, args) => process(item, args, extractAverage)
-const prominent = (item, args) => process(item, args, extractGroups)
+const average = (item, args) => process(item, args, getAverage)
+const prominent = (item, args) => process(item, args, getProminent)
 
 export { average, prominent }
