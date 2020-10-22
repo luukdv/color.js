@@ -6,8 +6,8 @@ it('Extracts the average color', () => {
 })
 
 it('Extracts the prominent color', () => {
-  cy.wrap(prominent('http://localhost:9000/sand.jpg', { amount: 1 }))
-    .then((data) => expect(data).to.deep.equal([140, 140, 180]))
+  cy.wrap(prominent('http://localhost:9000/pills.jpg', { amount: 1, group: 1 }))
+    .then((data) => expect(data).to.deep.equal([237, 140, 0]))
 })
 
 it('Extracts prominent colors', () => {
