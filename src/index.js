@@ -2,7 +2,7 @@ const getSrc = (item) => typeof item === 'object' && item.src ? item.src : item
 
 const getArgs = ({
   amount = 10,
-  format = 'rgb',
+  format = 'array',
   group = 20,
   sample = 10,
 } = {}) => ({ amount, format, group, sample })
@@ -12,6 +12,8 @@ const rgbToHex = (rgb) => '#' + rgb.map((value) => {
 
   return hex.length === 1 ? '0' + hex : hex;
 }).join('')
+
+const format = (data, type) => type === 'hex' ? rgbToHex(data) : data
 
 const getImageData = (src) => new Promise((resolve, reject) => {
   const canvas = document.createElement('canvas')
@@ -47,11 +49,11 @@ const extractAverage = (data, args) => {
     rgb.b += data[i + 2]
   }
 
-  return [
+  return format([
     Math.round(rgb.r / amount),
     Math.round(rgb.g / amount),
     Math.round(rgb.b / amount)
-  ]
+  ], args.format)
 }
 
 const extractGroups = (data, args) => {
