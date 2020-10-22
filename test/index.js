@@ -20,6 +20,14 @@ it('Extracts the color from a DOM element', () => {
     .then((data) => expect(data).to.deep.equal([233, 155, 42]))
 })
 
+it('Extracts 2 prominent colors', () => {
+  cy.wrap(prominent('http://localhost:9000/balls.jpg', { amount: 2, group: 32 }))
+    .then((data) => expect(data).to.deep.equal([
+      [224, 0, 160], // Pink
+      [192, 192, 0], // Yellow
+    ]))
+})
+
 it('Extracts 3 prominent colors', () => {
   cy.wrap(prominent('http://localhost:9000/faces.jpg', { amount: 3, group: 28 }))
     .then((data) => expect(data).to.deep.equal([
