@@ -8,9 +8,9 @@ const getArgs = ({
 } = {}) => ({ amount, format, group, sample })
 
 const rgbToHex = (rgb) => '#' + rgb.map((value) => {
-  const hex = parseInt(value).toString(16);
+  const hex = value.toString(16)
 
-  return hex.length === 1 ? '0' + hex : hex;
+  return hex.length === 1 ? '0' + hex : hex
 }).join('')
 
 const format = (data, type) => type === 'hex' ? rgbToHex(data) : data
