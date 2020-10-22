@@ -21,7 +21,6 @@ const getImageData = (src) => new Promise((resolve, reject) => {
   const img = new Image
 
   img.onload = () => {
-    canvas.style.display = 'none'
     canvas.height = img.height
     canvas.width = img.width
     context.drawImage(img, 0, 0)
