@@ -43,7 +43,7 @@ colorjs.prominent('js-logo.jpg', { amount: 1 }).then(color => {
 
 ## Options
 
-You can pass two arguments, an image and a [configuration](#configuration) `object`.
+You can pass two arguments, an image and a [configuration-optional](#configuration) `object`.
 
 ### Image (required)
 
