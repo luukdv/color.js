@@ -42,7 +42,11 @@ const getImageData = (src) => new Promise((resolve, reject) => {
   img.src = src
 })
 
-const group = (number, amount) => Math.round(number / amount) * amount
+const group = (number, grouping) => {
+  const grouped = Math.round(number / grouping) * grouping
+
+  return Math.min(grouped, 255)
+}
 
 const getAverage = (data, args) => {
   const interval = 4 * args.sample
