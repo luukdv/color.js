@@ -22,6 +22,10 @@ import { prominent } from 'color.js'
 prominent('js-logo.jpg', { amount: 1 }).then(color => {
   console.log(color) // [241, 221, 63]
 })
+
+// Or with different syntax:
+const color = await prominent('js-logo.jpg', { amount: 1 })
+console.log(color) // [241, 221, 63]
 ```
 
 When used directly in the browser:
