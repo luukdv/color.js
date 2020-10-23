@@ -64,6 +64,32 @@ average('https://example.com/image.jpg')
 
 When using an external image, [CORS](https://enable-cors.org/) should of course be enabled on the source.
 
+## API
+
+### Prominent
+
+Returns the most used color(s) in an image. Can be requested as a single color or palette of colors (see [amount](#amount)).
+
+```js
+import { prominent } from 'color.js'
+
+prominent('image.jpg').then(colors => ...)
+```
+
+![Prominent](img/prominent.jpg)
+
+### Average
+
+Returns the average color of an image.
+
+```js
+import { average } from 'color.js'
+
+average('image.jpg').then(color => ...)
+```
+
+![Average](img/average.jpg)
+
 ### Configuration (optional)
 
 The default options. Explanations of each option can be found below.
@@ -92,43 +118,17 @@ The format in which colors should be returned. Options are `'array'` (default) a
 '#f1dd3f' // 'hex'
 ```
 
-#### Sample
-
-Configures how many pixels of an image should be processed. For example, a value of `20` means every 20th pixel is interpreted. A higher value means less accurate results, but better performance. An example of default sampling (`10`) on an image:
-
-![Sample](img/sample.jpg)
-
 #### Group
 
 Configures how many similar colors should be combined into one color. A value of `1` would mean _every_ individual color would be considered, but this is often not ideal. Especially in photographs there's usually a lot of color data, and grouping colors could give more usable results. In the first example below, `group` is set to `5` and a lot of individual colors in the sea are returned. When more grouping is applied (`30` in the second example), the results become more distinct.
 
 ![Group](img/group.jpg)
 
-## API
+#### Sample
 
-### Prominent
+Configures how many pixels of an image should be processed. For example, a value of `20` means every 20th pixel is interpreted. A higher value means less accurate results, but better performance. An example of default sampling (`10`) on an image:
 
-Returns the most used color(s) in an image. Can be requested as a single color or palette of colors (see [amount](#amount)).
-
-```js
-import { prominent } from 'color.js'
-
-prominent('image.jpg').then(colors => ...)
-```
-
-![Prominent](img/prominent.jpg)
-
-### Average
-
-Returns the average color of an image.
-
-```js
-import { average } from 'color.js'
-
-average('image.jpg').then(color => ...)
-```
-
-![Average](img/average.jpg)
+![Sample](img/sample.jpg)
 
 ## Browser support
 
