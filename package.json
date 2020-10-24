@@ -47,7 +47,7 @@
     "build:esm": "rollup src/index.js -f es -o dist/color.esm.js -p \"babel={presets:['@babel/preset-env']}\"",
     "build": "rimraf dist && run-p build:browser build:cjs build:esm",
     "format": "prettier --write '**/*.{js,json,ts}'",
-    "prepublishOnly": "npm test && npm run build",
+    "prepublishOnly": "npm run build",
     "test:cypress": "cypress open",
     "test:server": "http-server -p 9000 ./test",
     "test": "run-p test:cypress test:server"
