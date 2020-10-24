@@ -49,11 +49,11 @@ const group = (number, grouping) => {
 }
 
 const getAverage = (data, args) => {
-  const interval = 4 * args.sample
-  const amount = data.length / interval
+  const gap = 4 * args.sample
+  const amount = data.length / gap
   const rgb = { r: 0, g: 0, b: 0 }
 
-  for (let i = 0; i < data.length; i += interval) {
+  for (let i = 0; i < data.length; i += gap) {
     rgb.r += data[i]
     rgb.g += data[i + 1]
     rgb.b += data[i + 2]
@@ -67,10 +67,10 @@ const getAverage = (data, args) => {
 }
 
 const getProminent = (data, args) => {
-  const interval = 4 * args.sample
+  const gap = 4 * args.sample
   const colors = {}
 
-  for (let i = 0; i < data.length; i += interval) {
+  for (let i = 0; i < data.length; i += gap) {
     const rgb = [
       group(data[i], args.group),
       group(data[i + 1], args.group),
