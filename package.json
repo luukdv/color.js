@@ -42,7 +42,7 @@
   "types": "dist/color.d.ts",
   "sideEffects": false,
   "scripts": {
-    "build:browser": "rollup src/index.js -f iife -o dist/color.browser.js -n colorjs --no-esModule -p terser -p \"babel={presets:['@babel/preset-env']}\"",
+    "build:browser": "rollup src/index.js -f iife -o dist/color.js -n colorjs --no-esModule -p terser -p \"babel={presets:['@babel/preset-env']}\"",
     "build:cjs": "rollup src/index.js -f cjs -o dist/color.cjs.js -p \"babel={presets:['@babel/preset-env']}\"",
     "build:esm": "rollup src/index.js -f es -o dist/color.esm.js -p \"babel={presets:['@babel/preset-env']}\"",
     "build": "rimraf dist && run-p build:browser build:cjs build:esm",
