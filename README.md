@@ -96,7 +96,7 @@ The default options. Explanations of each option can be found below.
 
 ```js
 {
-  amount: 5,
+  amount: 3,
   format: 'array',
   group: 20,
   sample: 10,

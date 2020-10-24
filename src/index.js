@@ -1,7 +1,7 @@
 const getSrc = (item) => typeof item === 'object' && item.src ? item.src : item
 
 const getArgs = ({
-  amount = 5,
+  amount = 3,
   format = 'array',
   group = 20,
   sample = 10,
