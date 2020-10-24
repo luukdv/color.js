@@ -56,3 +56,8 @@ it('Returns the default format when an invalid format is provided', () => {
   cy.wrap(average('http://localhost:9000/faces.jpg', { format: 'invalid' }))
     .then((data) => expect(data).to.deep.equal([54, 38, 42]))
 })
+
+it('Actual colors are extracted from a transparent image, not mixed with white or black', () => {
+  cy.wrap(average('http://localhost:9000/balloons.png'))
+    .then((data) => expect(data).to.deep.equal([132, 86, 65]))
+})
