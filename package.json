@@ -1,6 +1,6 @@
 {
   "name": "color.js",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Extract image colors with JavaScript. Supports DOM elements and (external) URL's.",
   "homepage": "https://github.com/luukdv/color.js",
   "repository": "luukdv/color.js",
