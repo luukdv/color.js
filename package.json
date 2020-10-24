@@ -25,14 +25,17 @@
     "canvas",
     "color",
     "colors",
+    "dominant",
     "electron",
     "extract",
     "image",
     "palette",
     "photo",
     "picture",
+    "prominent",
     "rgb",
-    "sample"
+    "sample",
+    "thief"
   ],
   "main": "dist/color.cjs.js",
   "module": "dist/color.esm.js",
