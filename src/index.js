@@ -7,12 +7,6 @@ const getArgs = ({
   sample = 10,
 } = {}) => ({ amount, format, group, sample })
 
-const rgbToHex = (rgb) => '#' + rgb.map((val) => {
-  const hex = val.toString(16)
-
-  return hex.length === 1 ? '0' + hex : hex
-}).join('')
-
 const format = (data, args) => {
   const list = data.map((val) => {
     const rgb = Array.isArray(val) ? val : val.split(',').map(Number)
@@ -22,6 +16,18 @@ const format = (data, args) => {
 
   return args.amount === 1 || list.length === 1 ? list[0] : list
 }
+
+const group = (number, grouping) => {
+  const grouped = Math.round(number / grouping) * grouping
+
+  return Math.min(grouped, 255)
+}
+
+const rgbToHex = (rgb) => '#' + rgb.map((val) => {
+  const hex = val.toString(16)
+
+  return hex.length === 1 ? '0' + hex : hex
+}).join('')
 
 const getImageData = (src) => new Promise((resolve, reject) => {
   const canvas = document.createElement('canvas')
@@ -41,12 +47,6 @@ const getImageData = (src) => new Promise((resolve, reject) => {
   img.crossOrigin = ''
   img.src = src
 })
-
-const group = (number, grouping) => {
-  const grouped = Math.round(number / grouping) * grouping
-
-  return Math.min(grouped, 255)
-}
 
 const getAverage = (data, args) => {
   const gap = 4 * args.sample
