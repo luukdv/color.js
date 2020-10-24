@@ -41,29 +41,6 @@ colorjs.prominent('js-logo.jpg', { amount: 1 }).then(color => {
 })
 ```
 
-## Options
-
-You can pass two arguments, an image and a [configuration](#configuration-optional) `object`.
-
-### Image (required)
-
-Can be a URL or DOM element.
-
-```js
-average('image.jpg')
-```
-
-```js
-const img = document.getElementById('image')
-average(img)
-```
-
-```js
-average('https://example.com/image.jpg')
-```
-
-When using an external image, [CORS](https://enable-cors.org/) should of course be enabled on the source.
-
 ## API
 
 ### Prominent
@@ -89,6 +66,29 @@ average('image.jpg').then(color => ...)
 ```
 
 ![Average](img/average.jpg)
+
+## Options
+
+You can pass two arguments, an image and a [configuration](#configuration-optional) `object`.
+
+### Image (required)
+
+Can be a URL or DOM element.
+
+```js
+average('image.jpg')
+```
+
+```js
+const img = document.getElementById('image')
+average(img)
+```
+
+```js
+average('https://example.com/image.jpg')
+```
+
+When using an external image, [CORS](https://enable-cors.org/) should of course be enabled on the source.
 
 ### Configuration (optional)
 
