@@ -98,7 +98,7 @@ The default options. Explanations of each option can be found below.
 {
   amount: 3,
   format: 'array',
-  group: 20,
+  group: 10,
   sample: 10,
 }
 ```
