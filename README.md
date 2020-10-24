@@ -1,6 +1,6 @@
-# color.js 🎨
+# color.js
 
-Extract colors from an image. Images that are present in the DOM are supported, as well as (external) URL's. Size: ~0.75 KB (min + gzip).
+Extract colors from an image. Works in the browser and in hybrid environments like Electron. Supports images that are present in the DOM, as well as (external) URL's. Size: ~0.75 KB (min + gzip).
 
 ## Installation
 
@@ -11,7 +11,7 @@ npm install color.js
 Or directly in the browser:
 
 ```html
-<script src="dist/color.browser.js"></script>
+<script src="https://unpkg.com/color.js/dist/color.browser.js"></script>
 ```
 
 ## Usage example:
@@ -32,7 +32,7 @@ console.log(color) // [241, 221, 63]
 When used directly in the browser:
 
 ```html
-<script src="dist/color.browser.js"></script>
+<script src="https://unpkg.com/color.js/dist/color.browser.js"></script>
 ```
 
 ```js
@@ -132,4 +132,4 @@ Configures how many pixels of an image should be processed. For example, a value
 
 ## Browser support
 
-Pretty much everything, except for IE.
+Pretty much everything (> 0.2%), except for IE.
