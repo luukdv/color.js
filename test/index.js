@@ -63,6 +63,6 @@ it('Actual colors are extracted from a transparent image, not mixed with white o
 })
 
 it('Works with a WEBP image', () => {
-  cy.wrap(prominent('http://localhost:9000/oil.webp', { sample: 1, group: 10 }))
+  cy.wrap(prominent('http://localhost:9000/oil.webp', { amount: 1, sample: 1, group: 10 }))
     .then((data) => expect(data).to.deep.equal([240, 50, 190])) // Pink
 })
