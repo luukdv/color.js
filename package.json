@@ -1,38 +1,66 @@
 {
   "name": "color.js",
-  "version": "0.1.3",
+  "version": "1.0.0",
   "description": "Extract image colors with JavaScript. Supports DOM elements and (external) URL's.",
+  "homepage": "https://github.com/luukdv/color.js",
+  "repository": "luukdv/color.js",
+  "bugs": "https://github.com/luukdv/color.js/issues",
+  "license": "MIT",
+  "author": {
+    "name": "Luuk de Vlieger",
+    "email": "info@luuk.site",
+    "url": "https://www.luuk.site"
+  },
+  "browserslist": [
+    "> 0.2%",
+    "not dead",
+    "not ie > 0"
+  ],
+  "files": [
+    "dist"
+  ],
   "keywords": [
     "average",
+    "browser",
+    "canvas",
     "color",
+    "colors",
+    "dominant",
+    "electron",
     "extract",
     "image",
     "palette",
     "photo",
-    "rgb"
+    "picture",
+    "prominent",
+    "rgb",
+    "sample",
+    "thief"
   ],
-  "homepage": "https://github.com/luukdv/color.js",
-  "bugs": {
-    "url": "https://github.com/luukdv/color.js/issues"
-  },
-  "license": "MIT",
-  "author": {
-    "name": "Luuk de Vlieger"
-  },
-  "main": "dist/color.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/luukdv/color.js.git"
-  },
+  "main": "dist/color.cjs.js",
+  "module": "dist/color.esm.js",
+  "types": "dist/color.d.ts",
+  "sideEffects": false,
   "scripts": {
-    "build": "uglifyjs src/color.js -c -m -r 'Color' -o dist/color.js",
-    "test": "npm run build && ava --fail-fast --tap | tap-nyan -v",
-    "watch:test": "ava --fail-fast -v -w"
+    "build:browser": "rollup src/index.js -f iife -o dist/color.browser.js -n colorjs --no-esModule -p terser -p \"babel={presets:['@babel/preset-env']}\"",
+    "build:cjs": "rollup src/index.js -f cjs -o dist/color.cjs.js -p \"babel={presets:['@babel/preset-env']}\"",
+    "build:esm": "rollup src/index.js -f es -o dist/color.esm.js -p \"babel={presets:['@babel/preset-env']}\"",
+    "build": "rimraf dist && run-p build:browser build:cjs build:esm",
+    "format": "prettier --write '**/*.{js,json,ts}'",
+    "prepublishOnly": "npm run build",
+    "test:cypress": "cypress open",
+    "test:server": "http-server -p 9000 ./test",
+    "test": "run-p test:cypress test:server"
   },
+  "dependencies": {},
   "devDependencies": {
-    "ava": "^0.17.0",
-    "browser-env": "^2.0.19",
-    "tap-nyan": "^1.1.0",
-    "uglify-js": "^2.7.5"
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
+    "@rollup/plugin-babel": "^5.2.1",
+    "cypress": "^5.4.0",
+    "http-server": "^0.12.3",
+    "npm-run-all": "^4.1.5",
+    "rollup": "^2.32.0",
+    "rollup-plugin-terser": "^7.0.2"
   }
 }

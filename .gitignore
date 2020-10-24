@@ -1,0 +1,4 @@
+.DS_Store
+cypress
+dist
+node_modules
