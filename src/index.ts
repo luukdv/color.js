@@ -9,13 +9,17 @@ type Data = Uint8ClampedArray
 
 type Handler = (data: Data, args: Args) => Output
 
-type Input = (string | Rgb)[]
+type Hex = string
 
-type Item = string | HTMLImageElement
+type Input = (Hex | Rgb)[]
 
-type Output = string | Rgb | (string | Rgb)[]
+type Item = Url | HTMLImageElement
+
+type Output = Hex | Rgb | (Hex | Rgb)[]
 
 type Rgb = number[]
+
+type Url = string
 
 const getSrc = (item: Item): string =>
   typeof item === 'string' ? item : item.src
@@ -43,13 +47,13 @@ const group = (number: number, grouping: number): number => {
   return Math.min(grouped, 255)
 }
 
-const rgbToHex = (rgb: Rgb): string => '#' + rgb.map((val) => {
+const rgbToHex = (rgb: Rgb): Hex => '#' + rgb.map((val) => {
   const hex = val.toString(16)
 
   return hex.length === 1 ? '0' + hex : hex
 }).join('')
 
-const getImageData = (src: string): Promise<Data> =>
+const getImageData = (src: Url): Promise<Data> =>
   new Promise((resolve, reject) => {
     const canvas = document.createElement('canvas')
     const context = <CanvasRenderingContext2D>canvas.getContext('2d')
@@ -89,7 +93,7 @@ const getAverage = (data: Data, args: Args): Output => {
 
 const getProminent = (data: Data, args: Args): Output => {
   const gap = 4 * args.sample
-  const colors = {}
+  const colors: { [key: string]: number } = {}
 
   for (let i = 0; i < data.length; i += gap) {
     const rgb = [
@@ -103,7 +107,7 @@ const getProminent = (data: Data, args: Args): Output => {
 
   return format(
     Object.entries(colors)
-      .sort(([keyA, valA], [keyB, valB]) => valA > valB ? -1 : 1)
+      .sort(([_keyA, valA], [_keyB, valB]) => valA > valB ? -1 : 1)
       .slice(0, args.amount)
       .map(([rgb]) => rgb),
     args
