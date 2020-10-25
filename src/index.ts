@@ -1,4 +1,14 @@
-const getSrc = (item) => typeof item === 'object' && item.src ? item.src : item
+type Args = {
+  amount: number;
+  format: 'array' | 'hex';
+  group: number;
+  sample: number;
+}
+
+type Rgb = number[]
+
+const getSrc = (item: string | HTMLImageElement) =>
+  typeof item === 'object' && item.src ? item.src : item
 
 const getArgs = ({
   amount = 3,
@@ -7,7 +17,7 @@ const getArgs = ({
   sample = 10,
 } = {}) => ({ amount, format, group, sample })
 
-const format = (data, args) => {
+const format = (data: (string | Rgb)[], args: Args) => {
   const list = data.map((val) => {
     const rgb = Array.isArray(val) ? val : val.split(',').map(Number)
 
@@ -17,21 +27,21 @@ const format = (data, args) => {
   return args.amount === 1 || list.length === 1 ? list[0] : list
 }
 
-const group = (number, grouping) => {
+const group = (number: number, grouping: number) => {
   const grouped = Math.round(number / grouping) * grouping
 
   return Math.min(grouped, 255)
 }
 
-const rgbToHex = (rgb) => '#' + rgb.map((val) => {
+const rgbToHex = (rgb: Rgb) => '#' + rgb.map((val) => {
   const hex = val.toString(16)
 
   return hex.length === 1 ? '0' + hex : hex
 }).join('')
 
-const getImageData = (src) => new Promise((resolve, reject) => {
+const getImageData = (src: string) => new Promise((resolve, reject) => {
   const canvas = document.createElement('canvas')
-  const context = canvas.getContext('2d')
+  const context = <CanvasRenderingContext2D>canvas.getContext('2d')
   const img = new Image
 
   img.onload = () => {
@@ -48,7 +58,7 @@ const getImageData = (src) => new Promise((resolve, reject) => {
   img.src = src
 })
 
-const getAverage = (data, args) => {
+const getAverage = (data: Uint8ClampedArray, args: Args) => {
   const gap = 4 * args.sample
   const amount = data.length / gap
   const rgb = { r: 0, g: 0, b: 0 }
@@ -66,7 +76,7 @@ const getAverage = (data, args) => {
   ]], args)
 }
 
-const getProminent = (data, args) => {
+const getProminent = (data: Uint8ClampedArray, args: Args) => {
   const gap = 4 * args.sample
   const colors = {}
 
