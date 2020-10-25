@@ -1,24 +1,34 @@
+type Item = string | HTMLImageElement
+
 type Args = {
   amount: number;
-  format: 'array' | 'hex';
+  format: string;
   group: number;
   sample: number;
 }
 
+type Input = (string | Rgb)[]
+
+type Output = string | Rgb | Rgb[]
+
 type Rgb = number[]
 
-const getSrc = (item: string | HTMLImageElement) =>
-  typeof item === 'object' && item.src ? item.src : item
+type Data = Uint8ClampedArray
+
+type Processor = (data: Data, args: Args) => Output
+
+const getSrc = (item: Item): string =>
+  typeof item === 'string' ? item : item.src
 
 const getArgs = ({
   amount = 3,
   format = 'array',
   group = 20,
   sample = 10,
-} = {}) => ({ amount, format, group, sample })
+} = {}): Args => ({ amount, format, group, sample })
 
-const format = (data: (string | Rgb)[], args: Args) => {
-  const list = data.map((val) => {
+const format = (input: Input, args: Args): Output => {
+  const list = input.map((val) => {
     const rgb = Array.isArray(val) ? val : val.split(',').map(Number)
 
     return args.format === 'hex' ? rgbToHex(rgb) : rgb
@@ -27,19 +37,19 @@ const format = (data: (string | Rgb)[], args: Args) => {
   return args.amount === 1 || list.length === 1 ? list[0] : list
 }
 
-const group = (number: number, grouping: number) => {
+const group = (number: number, grouping: number): number => {
   const grouped = Math.round(number / grouping) * grouping
 
   return Math.min(grouped, 255)
 }
 
-const rgbToHex = (rgb: Rgb) => '#' + rgb.map((val) => {
+const rgbToHex = (rgb: Rgb): string => '#' + rgb.map((val) => {
   const hex = val.toString(16)
 
   return hex.length === 1 ? '0' + hex : hex
 }).join('')
 
-const getImageData = (src: string) => new Promise((resolve, reject) => {
+const getImageData = (src: string): Promise<Data> => new Promise((resolve, reject) => {
   const canvas = document.createElement('canvas')
   const context = <CanvasRenderingContext2D>canvas.getContext('2d')
   const img = new Image
@@ -58,7 +68,7 @@ const getImageData = (src: string) => new Promise((resolve, reject) => {
   img.src = src
 })
 
-const getAverage = (data: Uint8ClampedArray, args: Args) => {
+const getAverage = (data: Data, args: Args): Output => {
   const gap = 4 * args.sample
   const amount = data.length / gap
   const rgb = { r: 0, g: 0, b: 0 }
@@ -76,7 +86,7 @@ const getAverage = (data: Uint8ClampedArray, args: Args) => {
   ]], args)
 }
 
-const getProminent = (data: Uint8ClampedArray, args: Args) => {
+const getProminent = (data: Data, args: Args): Output => {
   const gap = 4 * args.sample
   const colors = {}
 
@@ -99,13 +109,14 @@ const getProminent = (data: Uint8ClampedArray, args: Args) => {
   )
 }
 
-const process = (item, args, fn) => new Promise((resolve, reject) =>
-  getImageData(getSrc(item))
-    .then((data) => resolve(fn(data, getArgs(args))))
-    .catch((error) => reject(error))
+const process = (item: Item, args: Args, processor: Processor): Promise<Output> =>
+  new Promise((resolve, reject) =>
+    getImageData(getSrc(item))
+      .then((data) => resolve(processor(data, getArgs(args))))
+      .catch((error) => reject(error))
 )
 
-const average = (item, args) => process(item, args, getAverage)
-const prominent = (item, args) => process(item, args, getProminent)
+const average = (item: Item, args: Args) => process(item, args, getAverage)
+const prominent = (item: Item, args: Args) => process(item, args, getProminent)
 
 export { average, prominent }
