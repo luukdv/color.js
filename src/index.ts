@@ -1,5 +1,3 @@
-type Item = string | HTMLImageElement
-
 type Args = {
   amount: number;
   format: string;
@@ -7,15 +5,17 @@ type Args = {
   sample: number;
 }
 
-type Input = (string | Rgb)[]
-
-type Output = string | Rgb | Rgb[]
-
-type Rgb = number[]
-
 type Data = Uint8ClampedArray
 
-type Processor = (data: Data, args: Args) => Output
+type Handler = (data: Data, args: Args) => Output
+
+type Input = (string | Rgb)[]
+
+type Item = string | HTMLImageElement
+
+type Output = string | Rgb | (string | Rgb)[]
+
+type Rgb = number[]
 
 const getSrc = (item: Item): string =>
   typeof item === 'string' ? item : item.src
@@ -49,24 +49,25 @@ const rgbToHex = (rgb: Rgb): string => '#' + rgb.map((val) => {
   return hex.length === 1 ? '0' + hex : hex
 }).join('')
 
-const getImageData = (src: string): Promise<Data> => new Promise((resolve, reject) => {
-  const canvas = document.createElement('canvas')
-  const context = <CanvasRenderingContext2D>canvas.getContext('2d')
-  const img = new Image
+const getImageData = (src: string): Promise<Data> =>
+  new Promise((resolve, reject) => {
+    const canvas = document.createElement('canvas')
+    const context = <CanvasRenderingContext2D>canvas.getContext('2d')
+    const img = new Image
 
-  img.onload = () => {
-    canvas.height = img.height
-    canvas.width = img.width
-    context.drawImage(img, 0, 0)
+    img.onload = () => {
+      canvas.height = img.height
+      canvas.width = img.width
+      context.drawImage(img, 0, 0)
 
-    const data = context.getImageData(0, 0, img.width, img.height).data
+      const data = context.getImageData(0, 0, img.width, img.height).data
 
-    resolve(data)
-  }
-  img.onerror = () => reject(Error('Image loading failed.'))
-  img.crossOrigin = ''
-  img.src = src
-})
+      resolve(data)
+    }
+    img.onerror = () => reject(Error('Image loading failed.'))
+    img.crossOrigin = ''
+    img.src = src
+  })
 
 const getAverage = (data: Data, args: Args): Output => {
   const gap = 4 * args.sample
@@ -109,10 +110,10 @@ const getProminent = (data: Data, args: Args): Output => {
   )
 }
 
-const process = (item: Item, args: Args, processor: Processor): Promise<Output> =>
+const process = (item: Item, args: Args, handler: Handler): Promise<Output> =>
   new Promise((resolve, reject) =>
     getImageData(getSrc(item))
-      .then((data) => resolve(processor(data, getArgs(args))))
+      .then((data) => resolve(handler(data, getArgs(args))))
       .catch((error) => reject(error))
 )
 
