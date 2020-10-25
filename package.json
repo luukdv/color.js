@@ -42,17 +42,19 @@
   "types": "dist/color.d.ts",
   "sideEffects": false,
   "scripts": {
-    "build:browser": "rollup src/index.js -f iife -o dist/color.js -n colorjs --no-esModule -p terser -p \"babel={presets:['@babel/preset-env']}\"",
-    "build:cjs": "rollup src/index.js -f cjs -o dist/color.cjs.js -p \"babel={presets:['@babel/preset-env']}\"",
-    "build:esm": "rollup src/index.js -f es -o dist/color.esm.js -p \"babel={presets:['@babel/preset-env']}\"",
-    "build:types": "tsc --emitDeclarationOnly",
-    "build": "rimraf dist && run-p build:browser build:cjs build:esm build:types",
+    "build:browser": "rollup src/color.js -f iife -o dist/color.js -n colorjs --no-esModule -p terser -p \"babel={presets:['@babel/preset-env']}\"",
+    "build:cjs": "rollup src/color.js -f cjs -o dist/color.cjs.js -p \"babel={presets:['@babel/preset-env']}\"",
+    "build:esm": "rollup src/color.js -f es -o dist/color.esm.js -p \"babel={presets:['@babel/preset-env']}\"",
+    "build:types": "tsc --declaration --emitDeclarationOnly --outDir dist",
+    "build": "npm run transpile && rimraf dist && run-p build:browser build:cjs build:esm build:types",
     "format": "prettier --write '**/*.{js,json,ts}'",
     "prepublishOnly": "npm run build",
     "test:cypress": "cypress open",
     "test:server": "http-server -p 9000 ./test",
-    "test": "run-p test:cypress test:server",
-    "ts": "tsc --noEmit"
+    "test": "run-p transpile:watch test:cypress test:server",
+    "transpile:watch": "tsc --outDir src --watch",
+    "transpile": "tsc --outDir src",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {},
   "devDependencies": {

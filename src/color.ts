@@ -34,7 +34,6 @@ const getArgs = ({
 const format = (input: Input, args: Args): Output => {
   const list = input.map((val) => {
     const rgb = Array.isArray(val) ? val : val.split(',').map(Number)
-
     return args.format === 'hex' ? rgbToHex(rgb) : rgb
   })
 

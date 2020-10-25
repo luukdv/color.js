@@ -2,3 +2,4 @@
 cypress
 dist
 node_modules
+src/color.js

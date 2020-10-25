@@ -1,4 +1,4 @@
-import { average, prominent } from '../src'
+import { average, prominent } from '../src/color.js'
 
 it('Extracts the average color', () => {
   cy.wrap(average('http://localhost:9000/sand.jpg'))
