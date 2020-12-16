@@ -11,7 +11,7 @@ npm install color.js
 Or directly in the browser:
 
 ```html
-<script src="https://unpkg.com/color.js@1.1.0/dist/color.js"></script>
+<script src="https://unpkg.com/color.js@1.2.0/dist/color.js"></script>
 ```
 
 ## Usage example:
@@ -32,7 +32,7 @@ console.log(color) // [241, 221, 63]
 When used directly in the browser:
 
 ```html
-<script src="https://unpkg.com/color.js@1.1.0/dist/color.js"></script>
+<script src="https://unpkg.com/color.js@1.2.0/dist/color.js"></script>
 ```
 
 ```js
