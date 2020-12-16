@@ -66,3 +66,8 @@ it('Works with a WEBP image', () => {
   cy.wrap(prominent('http://localhost:9000/oil.webp', { amount: 1, sample: 1, group: 10 }))
     .then((data) => expect(data).to.deep.equal([240, 50, 190])) // Pink
 })
+
+it('Uses defaults when options are not specified', () => {
+  cy.wrap(prominent('http://localhost:9000/balls.jpg'))
+    .then((data) => expect(data).to.deep.equal([[20, 20, 20], [200, 0, 20], [180, 0, 20]]))
+})

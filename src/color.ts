@@ -17,7 +17,7 @@ type Item = Url | HTMLImageElement
 
 type Output = Hex | Rgb | (Hex | Rgb)[]
 
-type Rgb = number[]
+type Rgb = [r: number, g: number, b: number]
 
 type Url = string
 
@@ -33,7 +33,7 @@ const getArgs = ({
 
 const format = (input: Input, args: Args): Output => {
   const list = input.map((val) => {
-    const rgb = Array.isArray(val) ? val : val.split(',').map(Number)
+    const rgb = Array.isArray(val) ? val : val.split(',').map(Number) as Rgb
     return args.format === 'hex' ? rgbToHex(rgb) : rgb
   })
 
@@ -113,14 +113,14 @@ const getProminent = (data: Data, args: Args): Output => {
   )
 }
 
-const process = (item: Item, args: Args, handler: Handler): Promise<Output> =>
+const process = (handler: Handler, item: Item, args?: Partial<Args>): Promise<Output> =>
   new Promise((resolve, reject) =>
     getImageData(getSrc(item))
       .then((data) => resolve(handler(data, getArgs(args))))
       .catch((error) => reject(error))
 )
 
-const average = (item: Item, args: Args) => process(item, args, getAverage)
-const prominent = (item: Item, args: Args) => process(item, args, getProminent)
+const average = (item: Item, args?: Partial<Args>) => process(getAverage, item, args)
+const prominent = (item: Item, args?: Partial<Args>) => process(getProminent, item, args)
 
 export { average, prominent }
